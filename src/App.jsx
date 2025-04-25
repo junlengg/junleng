@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Code, Server, Database, Globe, Smartphone, Moon, Sun, Github, Linkedin, Mail, Download, ExternalLink, Code2, FileBadge, FileJson, BrainCircuit, Flame, Atom, MousePointer2, Instagram } from 'lucide-react';
-import JunLengResume from '/src/JunLengResume.pdf'
+import JunLengResume from '/public/JunLengResume.pdf'
 
 // Import shadcn/ui components
 import { Button } from '@/components/ui/button';
@@ -96,7 +96,7 @@ export default function LandingPage() {
               <Button className="hidden md:flex">
                 <Download size={16} className="mr-2" />
                 <a
-                  href="/src/JunLengResume.pdf"
+                  href="/JunLengResume.pdf"
                   alt="resume"
                   download="JunLengResume.pdf"
                 >
@@ -116,7 +116,7 @@ export default function LandingPage() {
               transition={{ duration: 0.7 }}
               className="flex flex-col gap-6"
             >
-              <Badge className="w-fit">Available for work</Badge>
+              <Badge className="w-fit bg-green-300">Available for work</Badge>
               <h1 className="text-4xl md:text-6xl font-bold">
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   Software Engineer
