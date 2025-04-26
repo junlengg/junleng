@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Code, Server, Database, Globe, Smartphone, Moon, Sun, Github, Linkedin, Mail, Download, ExternalLink, Code2, FileBadge, FileJson, BrainCircuit, Flame, Atom, MousePointer2, Instagram } from 'lucide-react';
-import JunLengResume from '/public/JunLengResume.pdf'
+import { Code, Server, Database, Globe, Smartphone, Moon, Sun, Github, Linkedin, Mail, Download, ExternalLink, Code2, FileBadge, FileJson, BrainCircuit, Flame, Atom, MousePointer2, Instagram, Bot, Calculator } from 'lucide-react';
 
 // Import shadcn/ui components
 import { Button } from '@/components/ui/button';
@@ -96,9 +95,9 @@ export default function LandingPage() {
               <Button className="hidden md:flex">
                 <Download size={16} className="mr-2" />
                 <a
-                  href="/JunLengResume.pdf"
+                  href="/Resume.docx"
                   alt="resume"
-                  download="JunLengResume.pdf"
+                  download="Jun Leng's Resume.docx"
                 >
                   Resume
                 </a>
@@ -273,6 +272,14 @@ export default function LandingPage() {
                     <h4 className="font-medium mb-4">Languages & Frameworks</h4>
                     <div className="flex flex-wrap gap-2">
                       <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
+                        <BrainCircuit className="w-5 h-5 text-blue-700" />
+                        <span>Python</span>
+                      </div>
+                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
+                        <FileJson className="w-5 h-5 text-yellow-500" />
+                        <span>JavaScript</span>
+                      </div>
+                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
                         <Code2 className="w-5 h-5 text-blue-600" />
                         <span>HTML</span>
                       </div>
@@ -281,16 +288,16 @@ export default function LandingPage() {
                         <span>CSS</span>
                       </div>
                       <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <FileJson className="w-5 h-5 text-yellow-500" />
-                        <span>JavaScript</span>
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <BrainCircuit className="w-5 h-5 text-blue-700" />
-                        <span>Python</span>
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
                         <Atom className="w-5 h-5 text-blue-500" />
                         <span>React</span>
+                      </div>
+                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
+                        <Bot className="w-5 h-5 text-blue-500" />
+                        <span>Keras</span>
+                      </div>
+                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
+                        <Calculator className="w-5 h-5 text-blue-500" />
+                        <span>Numpy</span>
                       </div>
                     </div>
                   </div>
