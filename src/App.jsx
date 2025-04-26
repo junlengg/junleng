@@ -95,9 +95,9 @@ export default function LandingPage() {
               <Button className="hidden md:flex">
                 <Download size={16} className="mr-2" />
                 <a
-                  href="/Resume.docx"
+                  href="/Resume.pdf"
                   alt="resume"
-                  download="Jun Leng's Resume.docx"
+                  download="Jun Leng's Resume.pdf"
                 >
                   Resume
                 </a>
