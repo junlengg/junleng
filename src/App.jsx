@@ -560,7 +560,7 @@ export default function LandingPage() {
                   description: "An online field booking website created for deployment with a club that provides field booking.",
                   image: "/scrcwebsite.JPG",
                   tags: ["ReactJS", "TailWindCSS", "ShadCN/UI", "Firebase", "Axios"],
-                  links: { live: "#" }
+                  links: { live: "https://scrc-website.vercel.app/" }
                 },
               ].map((project, index) => (
                 <motion.div
