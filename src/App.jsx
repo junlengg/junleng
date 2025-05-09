@@ -549,13 +549,6 @@ export default function LandingPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
-                  title: "Inadvisors (Under Development)",
-                  description: "A website in collaboration with Inadvisors to promote their services and gather more customers.",
-                  image: "/inadvisors.JPG",
-                  tags: ["ReactJS", "TailWindCSS", "ShadCN/UI", "Framer-Motion"],
-                  links: { github: "#", live: "https://inadvisors.vercel.app/" }
-                },
-                {
                   title: "FragmentAI (Under Development)",
                   description: "A website created with the intent to help break down medial tasks into checklists.",
                   image: "/fragmentai.JPG",
