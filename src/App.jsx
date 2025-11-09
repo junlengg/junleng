@@ -262,7 +262,7 @@ export default function LandingPage() {
               >
                 <h3 className="text-2xl font-bold">Software Engineer with a passion for creating impactful web experiences</h3>
                 <p className="text-slate-700 dark:text-slate-300">
-                  I'm a 23 year old software engineer based in Singapore with 1 year of experience building modern web applications.
+                  I'm a 23 year old software engineer based in Singapore with 2 years of experience building modern web applications.
                   My journey in tech began with a deep curiosity about how digital products are built and has evolved into a
                   career focused on creating elegant solutions to complex problems.
                 </p>
@@ -395,16 +395,17 @@ export default function LandingPage() {
                     achievements: [
                       "Built Excel sheet to keep track of NSF's parade states",
                       "Built Excel sheet to keep track of certificates that have been printed (Avoid double printing)",
-                      "Managed NSMen Messaging Software"
+                      "Managed NSMen Messaging Software (Postman)"
                     ]
                   },
                   {
                     title: "Travelling",
                     company: "Travelling the World",
-                    period: "October 2022 - Present",
+                    period: "October 2024 - June 2025",
                     description: "Experiencing lifestyles of other countries.",
                     achievements: [
                       "Melbourne x2",
+                      "Tasmania",
                       "Korea",
                       "Kuala Lumpur",
                       "Johor Bahru",
@@ -549,18 +550,11 @@ export default function LandingPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {[
                 {
-                  title: "FragmentAI (Under Development)",
-                  description: "A website created with the intent to help break down medial tasks into checklists.",
+                  title: "FragmentAI",
+                  description: "A website created with the intent to help break down medial tasks into checklists utilizing ChatGPT API.",
                   image: "/fragmentai.JPG",
                   tags: ["ReactJS", "TailwindCSS", "Firebase", "Framer-Motion", "ChatGPT API"],
-                  links: { github: "#", live: "#" }
-                },
-                {
-                  title: "Field Booking Website - SCRC (Under Development)",
-                  description: "An online field booking website created for deployment with a club that provides field booking.",
-                  image: "/scrcwebsite.JPG",
-                  tags: ["ReactJS", "TailWindCSS", "ShadCN/UI", "Firebase", "Axios"],
-                  links: { live: "https://scrc-website.vercel.app/" }
+                  links: { github: "#", live: "https://fragment-ai-kappa.vercel.app/" }
                 },
               ].map((project, index) => (
                 <motion.div
