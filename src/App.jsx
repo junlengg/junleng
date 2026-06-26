@@ -1,720 +1,642 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Code, Server, Database, Globe, Smartphone, Moon, Sun, Github, Linkedin, Mail, Download, ExternalLink, Code2, FileBadge, FileJson, BrainCircuit, Flame, Atom, MousePointer2, Instagram, Bot, Calculator } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { motion } from 'framer-motion';
+import {
+  ArrowUp,
+  Download,
+  ExternalLink,
+  Github,
+  Instagram,
+  Linkedin,
+  Mail,
+  Moon,
+  Send,
+  Sun,
+} from 'lucide-react';
 
-// Import shadcn/ui components
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
 
-// App component
-export default function LandingPage() {
+const Motion = motion;
+
+const navItems = [
+  { id: 'home', label: 'Home' },
+  { id: 'about', label: 'About' },
+  { id: 'work', label: 'Work' },
+  { id: 'education', label: 'Education' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'contact', label: 'Contact' },
+];
+
+const proofPoints = [
+  { value: '90%', label: 'clock-in time improvement' },
+  { value: '100+', label: 'employee-scale workflow' },
+  { value: 'SUTD', label: 'bachelor degree in progress' },
+];
+
+const strengths = [
+  'Responsive React interfaces',
+  'Firebase and Firestore workflows',
+  'Python automation for practical operations',
+  'AI coursework and product-minded development',
+];
+
+const skillGroups = [
+  ['Languages', ['Python', 'JavaScript', 'HTML', 'CSS']],
+  ['Frontend', ['React', 'TailwindCSS', 'Framer Motion']],
+  ['Data & AI', ['Firestore', 'SQL', 'Keras', 'Numpy']],
+  ['APIs', ['Firebase', 'Google Maps API', 'ChatGPT API']],
+];
+
+const experience = [
+  {
+    title: 'Software Developer',
+    company: 'Aktus M.U. Kreativ Pte Ltd',
+    period: 'March 2022 - August 2022',
+    description:
+      'Returned as a freelance software engineer after a strong internship performance.',
+    achievements: [
+      'Created a Python web application that helped companies averaging 100 employees streamline clock-in time by 90%.',
+      'Used Google Maps API to compare user location against company preset locations.',
+      'Used Google Firestore to create and retrieve clock-in, clock-out, and location data.',
+    ],
+  },
+  {
+    title: 'Software Developer Intern',
+    company: 'Aktus M.U. Kreativ Pte Ltd',
+    period: 'March 2021 - July 2021',
+    description: 'School internship focused on improving internal software reliability.',
+    achievements: [
+      'Implemented Firestore security rules to protect sensitive data.',
+      'Resolved a duplicate clock-in bug triggered by page refreshes.',
+      'Improved UI responsiveness across screen sizes.',
+    ],
+  },
+  {
+    title: 'National Service',
+    company: 'Singapore Navy',
+    period: 'October 2022 - October 2024',
+    description: 'Mandatory National Service for Singaporeans.',
+    achievements: [
+      'Built Excel sheets to track NSF parade states.',
+      'Built certificate tracking to prevent duplicated printing.',
+      'Managed NSMen messaging software through Postman.',
+    ],
+  },
+  {
+    title: 'Travelling',
+    company: 'Travelling the World',
+    period: 'October 2024 - June 2025',
+    description: 'Experienced lifestyles across other countries before beginning university.',
+    achievements: ['Melbourne x2', 'Tasmania', 'Korea', 'Kuala Lumpur', 'Johor Bahru', 'Japan'],
+  },
+];
+
+const education = [
+  {
+    title: 'Bachelors Degree',
+    institution: 'SUTD',
+    period: '2025 - Present',
+    description:
+      'Currently working on obtaining a Bachelors Degree at Singapore University of Technology and Design.',
+    achievements: ['Attended additional computing classes through a Python refresher course.'],
+  },
+  {
+    title: 'Diploma in Information Technology',
+    institution: 'Nanyang Polytechnic',
+    period: '2019 - 2021',
+    description: 'Specialized in artificial intelligence and software development fundamentals.',
+    achievements: [
+      'Coursework: Python, JavaScript, HTML/CSS.',
+      'Data Structures & Algorithms, Advanced Programming.',
+      'Foundation of AI, Machine Learning Techniques.',
+    ],
+  },
+  {
+    title: 'O-Level Certificate',
+    institution: 'Dunman High Secondary',
+    period: '2014 - 2018',
+    description: 'Achieved O-Level Certificate.',
+    achievements: ['Appointed as Assistant Patrol Leader for my group in Scouts CCA.'],
+  },
+];
+
+const project = {
+  title: 'FragmentAI',
+  description:
+    'A website created with the intent to help break down medical tasks into checklists utilizing the ChatGPT API.',
+  image: '/fragmentai.JPG',
+  tags: ['ReactJS', 'TailwindCSS', 'Firebase', 'Framer Motion', 'ChatGPT API'],
+  live: 'https://fragment-ai-kappa.vercel.app/',
+};
+
+const contacts = [
+  {
+    label: 'Email',
+    value: 'junleng.poh@gmail.com',
+    href: 'mailto:junleng.poh@gmail.com',
+    icon: Mail,
+  },
+  {
+    label: 'Telegram',
+    value: 't.me/somebrownguy',
+    href: 'https://t.me/somebrownguy',
+    icon: Send,
+  },
+  {
+    label: 'LinkedIn',
+    value: 'linkedin.com/in/poh-jun-leng',
+    href: 'https://www.linkedin.com/in/poh-jun-leng/',
+    icon: Linkedin,
+  },
+  {
+    label: 'Instagram',
+    value: 'instagram.com/_junleng',
+    href: 'https://www.instagram.com/_junleng/?hl=en',
+    icon: Instagram,
+  },
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 18 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const scrollOffset = 88;
+
+function SectionHeader({ eyebrow, title, copy }) {
+  return (
+    <Motion.div
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="visible"
+      transition={{ duration: 0.45 }}
+      viewport={{ once: true, margin: '-80px' }}
+      className="mb-10"
+    >
+      <p className="text-sm font-medium text-stone-500 dark:text-stone-400">{eyebrow}</p>
+      <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-normal text-stone-950 dark:text-stone-50 md:text-4xl">
+        {title}
+      </h2>
+      {copy && (
+        <p className="mt-4 max-w-2xl text-base leading-7 text-stone-600 dark:text-stone-300">
+          {copy}
+        </p>
+      )}
+    </Motion.div>
+  );
+}
+
+function LandingPage() {
   const [darkMode, setDarkMode] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
   const [scrollY, setScrollY] = useState(0);
 
-  // Handle scroll and set active section
+  const currentYear = useMemo(() => new Date().getFullYear(), []);
+
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
 
-      const sections = ['home', 'about', 'work', 'education', 'projects', 'contact'];
+      let currentSection = navItems[0].id;
 
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
-            break;
-          }
+      for (const item of navItems) {
+        const element = document.getElementById(item.id);
+        if (!element) continue;
+
+        const sectionTop = element.offsetTop - scrollOffset - 24;
+        if (window.scrollY >= sectionTop) {
+          currentSection = item.id;
         }
       }
+
+      setActiveSection(currentSection);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Toggle dark mode
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark', darkMode);
   }, [darkMode]);
 
-  // Smooth scroll to section
   const scrollToSection = (sectionId) => {
-    document.getElementById(sectionId).scrollIntoView({
-      behavior: 'smooth'
-    });
+    const element = document.getElementById(sectionId);
+    if (!element) return;
+
+    const top = sectionId === 'home' ? 0 : element.offsetTop - scrollOffset;
+    window.scrollTo({ top, behavior: 'smooth' });
   };
 
   return (
-    <div className={`${darkMode ? 'dark' : ''}`}>
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-50 transition-colors duration-300">
-        {/* Header */}
-        <header className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrollY > 50 ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-md' : 'bg-transparent'}`}>
-          <div className="container mx-auto flex justify-between items-center py-4">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center gap-2"
-            >
-              <span className="font-bold text-xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Poh Jun Leng</span>
-            </motion.div>
+    <main className="min-h-screen bg-stone-50 text-stone-950 transition-colors duration-300 dark:bg-[#0e0e0d] dark:text-stone-50">
+      <header
+        className={`fixed top-0 z-50 w-full transition-colors duration-300 ${
+          scrollY > 20
+            ? 'border-b border-stone-200 bg-stone-50/90 backdrop-blur-xl dark:border-stone-800 dark:bg-[#0e0e0d]/90'
+            : 'bg-transparent'
+        }`}
+      >
+        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
+          <button
+            type="button"
+            onClick={() => scrollToSection('home')}
+            className="flex items-center gap-3 text-left"
+            aria-label="Go to top"
+          >
+            <span className="text-sm font-semibold">Poh Jun Leng</span>
+            <span className="hidden text-sm text-stone-500 dark:text-stone-400 sm:inline">
+              Software Engineer
+            </span>
+          </button>
 
-            <nav className="hidden md:flex items-center gap-8">
-              {['home', 'about', 'work', 'education', 'projects', 'contact'].map((item) => (
-                <motion.button
-                  key={item}
-                  onClick={() => scrollToSection(item)}
-                  className={`text-sm font-medium capitalize hover:text-blue-600 dark:hover:text-blue-400 transition-colors ${activeSection === item ? 'text-blue-600 dark:text-blue-400' : ''}`}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {item}
-                </motion.button>
-              ))}
-            </nav>
-
-            <div className="flex items-center gap-4">
-              <motion.button
-                onClick={() => setDarkMode(!darkMode)}
-                className="p-2 rounded-full bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+          <nav className="hidden items-center gap-5 md:flex">
+            {navItems.slice(1).map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => scrollToSection(item.id)}
+                className={`text-sm transition-colors ${
+                  activeSection === item.id
+                    ? 'text-stone-950 dark:text-stone-50'
+                    : 'text-stone-500 hover:text-stone-950 dark:text-stone-400 dark:hover:text-stone-50'
+                }`}
               >
-                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-              </motion.button>
+                {item.label}
+              </button>
+            ))}
+          </nav>
 
-              <Button className="hidden md:flex">
-                <Download size={16} className="mr-2" />
-                <a
-                  href="/JunLengResume.pdf"
-                  alt="resume"
-                  download="Jun Leng's Resume.pdf"
-                >
-                  Resume
+          <div className="flex items-center gap-2">
+            <Button asChild variant="ghost" className="hidden h-9 px-3 md:inline-flex">
+              <a href="/JunLengResume.pdf" download="Jun Leng's Resume.pdf">
+                <Download />
+                Resume
+              </a>
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              onClick={() => setDarkMode((value) => !value)}
+              aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {darkMode ? <Sun /> : <Moon />}
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <section id="home" className="px-5 pb-20 pt-32 md:pb-28 md:pt-40">
+        <Motion.div
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          transition={{ duration: 0.55 }}
+          className="mx-auto max-w-5xl"
+        >
+          <div className="mb-6 flex flex-wrap items-center gap-3 text-sm text-stone-500 dark:text-stone-400">
+            <span>Available for work</span>
+            <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
+            <span>Singapore</span>
+          </div>
+
+          <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] tracking-normal text-stone-950 dark:text-stone-50 md:text-7xl">
+            Software engineer building useful web products.
+          </h1>
+
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-stone-600 dark:text-stone-300">
+            I am Poh Jun Leng, a 23 year old software engineer focused on React,
+            Firebase, Python, and AI-assisted workflows. I care about clean interfaces,
+            dependable data flows, and products that make real work easier.
+          </p>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Button
+              size="lg"
+              onClick={() => scrollToSection('contact')}
+              className="h-11 bg-stone-950 px-5 text-stone-50 hover:bg-stone-800 dark:bg-stone-50 dark:text-stone-950 dark:hover:bg-stone-200"
+            >
+              <Mail />
+              Get in touch
+            </Button>
+            <Button
+              size="lg"
+              variant="outline"
+              onClick={() => scrollToSection('projects')}
+              className="h-11 border-stone-300 bg-transparent px-5 dark:border-stone-700"
+            >
+              <ExternalLink />
+              View work
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-11 border-stone-300 bg-transparent px-5 dark:border-stone-700 md:hidden"
+            >
+              <a href="/JunLengResume.pdf" download="Jun Leng's Resume.pdf">
+                <Download />
+                Resume
+              </a>
+            </Button>
+          </div>
+
+          <div className="mt-14 grid gap-6 border-y border-stone-200 py-6 dark:border-stone-800 sm:grid-cols-3">
+            {proofPoints.map((point) => (
+              <div key={point.label}>
+                <p className="text-3xl font-semibold">{point.value}</p>
+                <p className="mt-1 text-sm leading-5 text-stone-500 dark:text-stone-400">
+                  {point.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </Motion.div>
+      </section>
+
+      <section id="about" className="px-5 py-20">
+        <div className="mx-auto max-w-5xl">
+          <SectionHeader
+            eyebrow="About"
+            title="Clear thinker, practical builder, fast learner."
+            copy="I like building web applications where the details matter: responsive interfaces, protected data, and flows that remove friction from everyday work."
+          />
+
+          <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr]">
+            <Motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              transition={{ duration: 0.45 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-sm font-medium uppercase tracking-[0.16em] text-stone-500 dark:text-stone-400">
+                What I bring
+              </h3>
+              <ul className="mt-5 space-y-3">
+                {strengths.map((strength) => (
+                  <li key={strength} className="border-l border-stone-300 pl-4 text-stone-700 dark:border-stone-700 dark:text-stone-300">
+                    {strength}
+                  </li>
+                ))}
+              </ul>
+            </Motion.div>
+
+            <Motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              transition={{ duration: 0.45, delay: 0.05 }}
+              viewport={{ once: true }}
+              className="grid gap-6 sm:grid-cols-2"
+            >
+              {skillGroups.map(([group, skills]) => (
+                <div key={group}>
+                  <h3 className="text-sm font-medium text-stone-500 dark:text-stone-400">
+                    {group}
+                  </h3>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {skills.map((skill) => (
+                      <Badge
+                        key={skill}
+                        variant="outline"
+                        className="border-stone-300 bg-transparent text-stone-700 dark:border-stone-700 dark:text-stone-300"
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </Motion.div>
+          </div>
+        </div>
+      </section>
+
+      <section id="work" className="border-t border-stone-200 px-5 py-20 dark:border-stone-800">
+        <div className="mx-auto max-w-5xl">
+          <SectionHeader
+            eyebrow="Work"
+            title="Experience shaped around reliability and business impact."
+            copy="The through-line is simple: spot the friction, build the tool, and make the workflow more dependable."
+          />
+
+          <div className="divide-y divide-stone-200 dark:divide-stone-800">
+            {experience.map((job, index) => (
+              <Motion.article
+                key={`${job.company}-${job.period}`}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                transition={{ duration: 0.45, delay: index * 0.04 }}
+                viewport={{ once: true, margin: '-80px' }}
+                className="grid gap-5 py-8 md:grid-cols-[0.35fr_0.65fr]"
+              >
+                <div>
+                  <p className="text-sm text-stone-500 dark:text-stone-400">{job.period}</p>
+                  <h3 className="mt-2 text-xl font-semibold">{job.title}</h3>
+                  <p className="mt-1 text-stone-600 dark:text-stone-300">{job.company}</p>
+                </div>
+                <div>
+                  <p className="leading-7 text-stone-600 dark:text-stone-300">{job.description}</p>
+                  <ul className="mt-4 space-y-2">
+                    {job.achievements.map((achievement) => (
+                      <li key={achievement} className="leading-7 text-stone-700 dark:text-stone-300">
+                        {achievement}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Motion.article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="education" className="border-t border-stone-200 px-5 py-20 dark:border-stone-800">
+        <div className="mx-auto max-w-5xl">
+          <SectionHeader
+            eyebrow="Education"
+            title="Foundations in IT, AI, and computing."
+            copy="My education connects software fundamentals with AI coursework and continued computing practice."
+          />
+
+          <div className="grid gap-8 md:grid-cols-3">
+            {education.map((item, index) => (
+              <Motion.div
+                key={item.title}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                transition={{ duration: 0.45, delay: index * 0.05 }}
+                viewport={{ once: true }}
+                className="border-t border-stone-200 pt-5 dark:border-stone-800"
+              >
+                <p className="text-sm text-stone-500 dark:text-stone-400">{item.period}</p>
+                <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
+                <p className="mt-1 text-stone-600 dark:text-stone-300">{item.institution}</p>
+                <p className="mt-4 leading-7 text-stone-600 dark:text-stone-300">{item.description}</p>
+                <ul className="mt-4 space-y-2 text-sm leading-6 text-stone-500 dark:text-stone-400">
+                  {item.achievements.map((achievement) => (
+                    <li key={achievement}>{achievement}</li>
+                  ))}
+                </ul>
+              </Motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" className="border-t border-stone-200 px-5 py-20 dark:border-stone-800">
+        <div className="mx-auto max-w-5xl">
+          <SectionHeader
+            eyebrow="Projects"
+            title="Selected work."
+            copy="A focused project that shows how I combine React, Firebase, and AI-assisted workflows."
+          />
+
+          <Motion.article
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            transition={{ duration: 0.45 }}
+            viewport={{ once: true, margin: '-80px' }}
+            className="grid gap-8 border-t border-stone-200 pt-8 dark:border-stone-800 lg:grid-cols-[0.95fr_1.05fr]"
+          >
+            <div className="overflow-hidden rounded-md border border-stone-200 bg-stone-100 dark:border-stone-800 dark:bg-stone-900">
+              <img
+                src={project.image}
+                alt={`${project.title} application screenshot`}
+                className="h-full min-h-[240px] w-full object-cover"
+              />
+            </div>
+
+            <div>
+              <h3 className="text-3xl font-semibold tracking-normal">{project.title}</h3>
+              <p className="mt-4 text-lg leading-8 text-stone-600 dark:text-stone-300">
+                {project.description}
+              </p>
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="outline"
+                    className="border-stone-300 bg-transparent text-stone-700 dark:border-stone-700 dark:text-stone-300"
+                  >
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+
+              <Button
+                asChild
+                variant="outline"
+                className="mt-7 h-11 border-stone-300 bg-transparent dark:border-stone-700"
+              >
+                <a href={project.live} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink />
+                  Open live site
                 </a>
               </Button>
             </div>
-          </div>
-        </header>
+          </Motion.article>
+        </div>
+      </section>
 
-        {/* Hero Section */}
-        <section id="home" className="min-h-screen pt-24 flex items-center">
-          <div className="container mx-auto grid md:grid-cols-2 gap-8 items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="flex flex-col gap-6"
-            >
-              <Badge className="w-fit bg-green-300">Available for work</Badge>
-              <h1 className="text-4xl md:text-6xl font-bold">
-                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  Software Engineer
-                </span>
-              </h1>
-              <p className="text-lg text-slate-700 dark:text-slate-300">
-                Building robust and scalable web applications with modern technologies.
-                Based in Singapore, crafting digital experiences that matter.
-              </p>
-              <div className="flex flex-wrap gap-4 mt-4">
-                <Button size="lg" onClick={() => scrollToSection('contact')}>
-                  Get in touch
-                </Button>
-                <Button size="lg" variant="outline" onClick={() => scrollToSection('projects')}>
-                  View my work
-                </Button>
-              </div>
+      <section id="contact" className="border-t border-stone-200 px-5 py-20 dark:border-stone-800">
+        <div className="mx-auto max-w-5xl">
+          <SectionHeader
+            eyebrow="Contact"
+            title="Let’s build something useful together."
+            copy="I am currently available for freelance work. If you have a project that needs coding, or want to hire me, get in touch."
+          />
 
-              <div className="flex gap-4 mt-6">
-                <motion.a
-                  href="https://github.com/junlengg"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="p-2 bg-slate-100 dark:bg-slate-800 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+          <div className="grid gap-4 md:grid-cols-2">
+            {contacts.map((contact) => {
+              const Icon = contact.icon;
+              return (
+                <a
+                  key={contact.label}
+                  href={contact.href}
+                  target={contact.href.startsWith('http') ? '_blank' : undefined}
+                  rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className="group rounded-md border border-stone-200 bg-white/35 p-5 transition-colors hover:border-stone-300 hover:bg-white/70 dark:border-stone-800 dark:bg-white/[0.02] dark:hover:border-stone-700 dark:hover:bg-white/[0.04]"
                 >
-                  <Github size={20} />
-                </motion.a>
-                <motion.a
-                  href="https://www.linkedin.com/in/poh-jun-leng/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  className="p-2 bg-slate-100 dark:bg-slate-800 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-                >
-                  <Linkedin size={20} />
-                </motion.a>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="relative"
-            >
-              <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-blue-600 to-purple-600 p-1">
-                <div className="bg-slate-50 dark:bg-slate-900 rounded-xl p-4">
-                  <div className="flex gap-2 mb-4">
-                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  </div>
-                  <pre className="font-mono text-xs md:text-sm overflow-x-auto p-4 rounded bg-slate-100 dark:bg-slate-800">
-                    <code>
-                      <span className="text-blue-600 dark:text-blue-400">const</span> <span className="text-green-600 dark:text-green-400">developer</span> = {`{`}<br />
-                      {"  "}<span className="text-purple-600 dark:text-purple-400">name</span>: <span className="text-orange-600 dark:text-orange-400">'Poh Jun Leng'</span>,<br />
-                      {"  "}<span className="text-purple-600 dark:text-purple-400">role</span>: <span className="text-orange-600 dark:text-orange-400">'Software Developer'</span>,<br />
-                      {"  "}<span className="text-purple-600 dark:text-purple-400">location</span>: <span className="text-orange-600 dark:text-orange-400">'Singapore'</span>,<br />
-                      {"  "}<span className="text-purple-600 dark:text-purple-400">skills</span>: [<br />
-                      {"    "}<span className="text-orange-600 dark:text-orange-400">'React'</span>, <span className="text-orange-600 dark:text-orange-400">'Python'</span>, <span className="text-orange-600 dark:text-orange-400">'Javascript'</span>,<br />
-                      {"     "}<span className="text-orange-600 dark:text-orange-400">HTML'</span>, <span className="text-orange-600 dark:text-orange-400">'CSS'</span>, <span className="text-orange-600 dark:text-orange-400">'Firestore'</span>, <span className="text-orange-600 dark:text-orange-400">'SQL'</span><br />
-                      {"  "}],<br />
-                      {"  "}<span className="text-purple-600 dark:text-purple-400">passion</span>: <span className="text-orange-600 dark:text-orange-400">'Building elegant solutions to complex problems'</span><br />
-                      {`}`};<br /><br />
-                      <span className="text-blue-600 dark:text-blue-400">function</span> <span className="text-yellow-600 dark:text-yellow-400">hire</span>() {`{`}<br />
-                      {"  "}<span className="text-blue-600 dark:text-blue-400">return</span> <span className="text-green-600 dark:text-green-400">developer.contact</span>();<br />
-                      {`}`}
-                    </code>
-                  </pre>
-                </div>
-              </div>
-
-              <motion.div
-                className="absolute -z-10 w-full h-full rounded-2xl bg-blue-600/20 dark:bg-blue-600/10 top-6 left-6"
-                animate={{
-                  top: [6, 12, 6],
-                  left: [6, 10, 6],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              />
-            </motion.div>
+                  <span className="flex items-start gap-4">
+                    <span className="grid size-10 shrink-0 place-items-center rounded-md border border-stone-200 text-stone-700 dark:border-stone-800 dark:text-stone-200">
+                      <Icon className="size-4" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-medium text-stone-950 dark:text-stone-50">
+                        {contact.label}
+                      </span>
+                      <span className="mt-1 block break-words text-sm leading-6 text-stone-500 dark:text-stone-400">
+                        {contact.value}
+                      </span>
+                    </span>
+                    <span className="grid size-9 shrink-0 place-items-center rounded-md text-stone-400 transition-colors group-hover:bg-stone-100 group-hover:text-stone-700 dark:group-hover:bg-stone-900 dark:group-hover:text-stone-200">
+                      <ExternalLink className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                    </span>
+                  </span>
+                </a>
+              );
+            })}
           </div>
-        </section>
 
-        {/* About Section */}
-        <section id="about" className="pt-20 pb-20">
-          <div className="container mx-auto">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              className="flex flex-col gap-2 items-center mb-16 text-center"
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <Button asChild className="h-11 bg-stone-950 text-stone-50 hover:bg-stone-800 dark:bg-stone-50 dark:text-stone-950 dark:hover:bg-stone-200">
+              <a href="mailto:junleng.poh@gmail.com">
+                <Mail />
+                Email me
+              </a>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="h-11 border-stone-300 bg-transparent dark:border-stone-700"
             >
-              <Badge variant="outline" className="mb-2">About Me</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold">Get to know me better</h2>
-              <div className="w-16 h-1 bg-blue-600 rounded-full mt-2"></div>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 gap-10 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7 }}
-                viewport={{ once: true }}
-                className="flex justify-center"
-              >
-                <div className="relative w-full max-w-md">
-                  <div className="rounded-2xl overflow-hidden bg-gradient-to-br from-blue-600 to-purple-600 p-6">
-                    <Avatar className="w-full h-auto aspect-square rounded-xl">
-                      <AvatarImage src="/me.jpg" alt="Profile Image" className="object-cover" />
-                      <AvatarFallback className="text-3xl">JL</AvatarFallback>
-                    </Avatar>
-                  </div>
-
-                  <motion.div
-                    className="absolute -z-10 w-full h-full rounded-2xl bg-blue-600/20 dark:bg-blue-600/10 top-6 -left-6"
-                    animate={{
-                      top: [6, 12, 6],
-                      left: [-6, -10, -6],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut"
-                    }}
-                  />
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7 }}
-                viewport={{ once: true }}
-                className="flex flex-col gap-6"
-              >
-                <h3 className="text-2xl font-bold">Software Engineer with a passion for creating impactful web experiences</h3>
-                <p className="text-slate-700 dark:text-slate-300">
-                  I'm a 23 year old software engineer based in Singapore with 2 years of experience building modern web applications.
-                  My journey in tech began with a deep curiosity about how digital products are built and has evolved into a
-                  career focused on creating elegant solutions to complex problems.
-                </p>
-
-                <div className="flex flex-col gap-4 mt-2">
-                  <div>
-                    <h4 className="font-medium mb-4">Languages & Frameworks</h4>
-                    <div className="flex flex-wrap gap-2">
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <BrainCircuit className="w-5 h-5 text-blue-700" />
-                        <span>Python</span>
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <FileJson className="w-5 h-5 text-yellow-500" />
-                        <span>JavaScript</span>
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <Code2 className="w-5 h-5 text-blue-600" />
-                        <span>HTML</span>
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <Code2 className="w-5 h-5 text-blue-600" />
-                        <span>CSS</span>
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <Atom className="w-5 h-5 text-blue-500" />
-                        <span>React</span>
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <Bot className="w-5 h-5 text-blue-500" />
-                        <span>Keras</span>
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <Calculator className="w-5 h-5 text-blue-500" />
-                        <span>Numpy</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="font-medium mb-2">Databases</h4>
-                    <div className="flex flex-wrap gap-2">
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <Flame className="w-5 h-5 text-orange-500" />
-                        <span>Firestore</span>
-                      </div>
-                      <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-lg">
-                        <Database className="w-5 h-5 text-blue-400" />
-                        <span>SQL</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4 mt-4">
-                  <div>
-                    <h4 className="font-medium mb-2">Name</h4>
-                    <p className="text-slate-700 dark:text-slate-300">Poh Jun Leng</p>
-                  </div>
-                  <div>
-                    <h4 className="font-medium mb-2">Email</h4>
-                    <p className="text-slate-700 dark:text-slate-300">junleng.poh@gmail.com</p>
-                  </div>
-                  <div>
-                    <h4 className="font-medium mb-2">Location</h4>
-                    <p className="text-slate-700 dark:text-slate-300">Singapore</p>
-                  </div>
-                  <div>
-                    <h4 className="font-medium mb-2">Experience</h4>
-                    <p className="text-slate-700 dark:text-slate-300">1 Year</p>
-                  </div>
-                </div>
-
-                <Button className="w-fit mt-4" onClick={() => scrollToSection('contact')}>
-                  Let's work together
-                </Button>
-              </motion.div>
-            </div>
+              <a href="/JunLengResume.pdf" download="Jun Leng's Resume.pdf">
+                <Download />
+                Download resume
+              </a>
+            </Button>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Experience Section */}
-        <section id="work" className="pt-25">
-          <div className="container mx-auto">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              className="flex flex-col gap-2 items-center mb-12 text-center"
-            >
-              <Badge variant="outline" className="mb-2">My Work Journey</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold">Work Experience</h2>
-              <div className="w-16 h-1 bg-blue-600 rounded-full mt-2"></div>
-            </motion.div>
-
-            <div className="relative mx-auto max-w-6xl">
-              {/* Timeline line */}
-              <div className="absolute top-8 left-0 w-full h-0.5 bg-slate-300 dark:bg-slate-600"></div>
-
-              <div className="flex flex-col md:flex-row gap-4 pb-8">
-                {[
-                  {
-                    title: "Software Developer",
-                    company: "Aktus M.U. Kreativ Pte Ltd",
-                    period: "March 2021 - July 2021",
-                    description: "Required Internship for School.",
-                    achievements: [
-                      "Implemented Firestore security rules to protect senstive data and support application scalability",
-                      "Resolved bug causing duplicate clock-ins on page refresh",
-                      "Improved UI responsiveness to maintain layout integrity across different screen sizes"
-                    ]
-                  },
-                  {
-                    title: "Software Developer",
-                    company: "Aktus M.U. Kreativ Pte Ltd",
-                    period: "March 2022 - August 2022",
-                    description: "Returned as Freelance Software Engineer via request (Accepted due to good performances during internship).",
-                    achievements: [
-                      "Created a web application using Python to help companies, of on average 100 employees, streamline their clock in time by 90%",
-                      "Used Google Maps API to retrieve user's location and compared to company's preset location, ensuring that user is clocking in from the correct location.",
-                      "Utilized Google FireStore to create and retrieve user's data (e.g. clock in/ out times, location)."
-                    ]
-                  },
-                  {
-                    title: "National Service",
-                    company: "Singapore Navy",
-                    period: "October 2022 - October 2024",
-                    description: "Mandatory National Service for Singaporeans.",
-                    achievements: [
-                      "Built Excel sheet to keep track of NSF's parade states",
-                      "Built Excel sheet to keep track of certificates that have been printed (Avoid double printing)",
-                      "Managed NSMen Messaging Software (Postman)"
-                    ]
-                  },
-                  {
-                    title: "Travelling",
-                    company: "Travelling the World",
-                    period: "October 2024 - June 2025",
-                    description: "Experiencing lifestyles of other countries.",
-                    achievements: [
-                      "Melbourne x2",
-                      "Tasmania",
-                      "Korea",
-                      "Kuala Lumpur",
-                      "Johor Bahru",
-                      "Japan"
-                    ]
-                  }
-                ].map((job, index) => (
-                  <motion.div
-                    key={job.title}
-                    className="relative pt-12 flex-1"
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    {/* Timeline dot */}
-                    <div className="absolute top-0 left-1/2 w-5 h-5 rounded-full bg-blue-600 border-4 border-white dark:border-slate-800 transform -translate-x-1/2"></div>
-
-                    <Card className="w-full h-full">
-                      <CardHeader className="p-4">
-                        <Badge className="w-fit mb-1">{job.period}</Badge>
-                        <CardTitle className="text-lg">{job.title}</CardTitle>
-                        <CardDescription className="text-base font-medium">{job.company}</CardDescription>
-                      </CardHeader>
-                      <CardContent className="p-4 pt-0 space-y-2">
-                        <p className="text-sm text-slate-700 dark:text-slate-300">{job.description}</p>
-                        <ul className="space-y-1 list-disc pl-4 text-sm">
-                          {job.achievements.map((item, i) => (
-                            <li key={i} className="text-slate-700 dark:text-slate-300">{item}</li>
-                          ))}
-                        </ul>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+      <footer className="border-t border-stone-200 px-5 py-8 text-sm text-stone-500 dark:border-stone-800 dark:text-stone-400">
+        <div className="mx-auto flex max-w-5xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <p>© {currentYear} Poh Jun Leng. Built with React and hosted on Vercel.</p>
+          <div className="flex items-center gap-4">
+            <a href="https://github.com/junlengg" target="_blank" rel="noopener noreferrer" className="hover:text-stone-950 dark:hover:text-stone-50">
+              <Github className="size-4" />
+              <span className="sr-only">GitHub</span>
+            </a>
+            <a href="https://www.linkedin.com/in/poh-jun-leng/" target="_blank" rel="noopener noreferrer" className="hover:text-stone-950 dark:hover:text-stone-50">
+              <Linkedin className="size-4" />
+              <span className="sr-only">LinkedIn</span>
+            </a>
           </div>
-        </section>
+        </div>
+      </footer>
 
-        <section id="education" className="pt-10">
-          <div className="container mx-auto">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              className="flex flex-col gap-2 items-center my-16 text-center"
-            >
-              <Badge variant="outline" className="mb-2">My Education Journey</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold">Education</h2>
-              <div className="w-16 h-1 bg-blue-600 rounded-full mt-2"></div>
-            </motion.div>
-
-            <div className="relative mx-auto max-w-6xl">
-              {/* Timeline line */}
-              <div className="absolute top-8 left-0 w-full h-0.5 bg-slate-300 dark:bg-slate-600"></div>
-
-              <div className="flex flex-col md:flex-row gap-4 pb-8">
-                {[
-                  {
-                    title: "O-Level Certicate",
-                    institution: "Dunman High Secondary",
-                    period: "2014-2018",
-                    description: "Achieving O-Level Certificate.",
-                    achievements: [
-                      "Appointed as Assistant Patrol Leader for my group in Scouts CCA"
-                    ]
-                  },
-                  {
-                    title: "Diploma in Information Technology",
-                    institution: "Nanyang Polytechnic",
-                    period: "2019-2021",
-                    description: "Specialized in Artificial Intelligence and software development fundamentals.",
-                    achievements: [
-                      "Coursework: Python, JavaScript, HTML/CSS",
-                      "Data Structures & Algorithms, Advanced Programming",
-                      "Foundation of AI, Machine Learning Techniques"
-                    ]
-                  },
-                  {
-                    title: "Bachelors Degree",
-                    institution: "SUTD",
-                    period: "2025-Present",
-                    description: "Currently working on obtaining Bachelors Degree at Singapore University of Technology and Design.",
-                    achievements: ["Attended Additional Classes for Computing (Python Refresher Course)"]
-                  }
-                ].map((edu, index) => (
-                  <motion.div
-                    key={edu.title}
-                    className="relative pt-12 flex-1"
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    {/* Timeline dot */}
-                    <div className="absolute top-0 left-1/2 w-5 h-5 rounded-full bg-blue-600 border-4 border-white dark:border-slate-800 transform -translate-x-1/2"></div>
-
-                    <Card className="w-full h-full">
-                      <CardHeader className="p-4">
-                        <Badge className="w-fit mb-1">{edu.period}</Badge>
-                        <CardTitle className="text-lg">{edu.title}</CardTitle>
-                        <CardDescription className="text-base font-medium">{edu.institution}</CardDescription>
-                      </CardHeader>
-                      <CardContent className="p-4 pt-0 space-y-2">
-                        <p className="text-sm text-slate-700 dark:text-slate-300">{edu.description}</p>
-                        {edu.achievements.length > 0 && (
-                          <ul className="space-y-1 list-disc pl-4 text-sm">
-                            {edu.achievements.map((item, i) => (
-                              <li key={i} className="text-slate-700 dark:text-slate-300">{item}</li>
-                            ))}
-                          </ul>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Projects Section */}
-        <section id="projects" className="py-24">
-          <div className="container mx-auto">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              className="flex flex-col gap-2 items-center mb-16 text-center"
-            >
-              <Badge variant="outline" className="mb-2">My Work</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold">Featured Projects</h2>
-              <div className="w-16 h-1 bg-blue-600 rounded-full mt-2"></div>
-              <p className="max-w-2xl mt-4 text-slate-700 dark:text-slate-300">
-                Here are some of my recent projects that showcase my technical skills. Some of the projects won't have a demo as I have plans for them.
-              </p>
-            </motion.div>
-
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                {
-                  title: "FragmentAI",
-                  description: "A website created with the intent to help break down medial tasks into checklists utilizing ChatGPT API.",
-                  image: "/fragmentai.JPG",
-                  tags: ["ReactJS", "TailwindCSS", "Firebase", "Framer-Motion", "ChatGPT API"],
-                  links: { github: "#", live: "https://fragment-ai-kappa.vercel.app/" }
-                },
-              ].map((project, index) => (
-                <motion.div
-                  key={project.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <Card className="overflow-hidden h-full flex flex-col border dark:border-slate-700">
-                    <div className="relative overflow-hidden">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        className="w-full h-48 object-cover transition-transform duration-500 hover:scale-110"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end">
-                        <div className="p-4 flex gap-2">
-                          {project.links.live && project.links.live !== "#" && (
-                            <a href={project.links.live} target="_blank" rel="noopener noreferrer">
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                className="bg-black/30 text-white border-white hover:bg-white/20 backdrop-blur-sm"
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                <ExternalLink size={14} className="mr-2" />
-                                Demo
-                              </Button>
-                            </a>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                    <CardHeader>
-                      <CardTitle className="text-slate-900 dark:text-white">{project.title}</CardTitle>
-                      <CardDescription className="pt-2 text-slate-600 dark:text-slate-300">{project.description}</CardDescription>
-                    </CardHeader>
-                    <CardFooter className="flex flex-wrap gap-2 mt-auto pt-0">
-                      {project.tags.map(tag => (
-                        <Badge key={tag} variant="secondary" className="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">{tag}</Badge>
-                      ))}
-                    </CardFooter>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Contact Section */}
-        <section id="contact" className="py-15">
-          <div className="container mx-auto">
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.5 }}
-              viewport={{ once: true }}
-              className="flex flex-col gap-2 items-center mb-12 text-center"
-            >
-              <Badge variant="outline" className="mb-2">Get In Touch</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold">Let's Work Together</h2>
-              <div className="w-16 h-1 bg-blue-600 rounded-full mt-2"></div>
-              <p className="max-w-4xl mt-4 text-slate-700 dark:text-slate-300">
-                I'm currently available for freelance work.
-                If you have a project that needs coding or want to hire me, get in touch.
-              </p>
-            </motion.div>
-
-            <div className='px-90 pb-20 pt-10'>
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.7 }}
-                viewport={{ once: true }}
-                className="space-y-4"
-              >
-                {/* Follow Me Box */}
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle>Contact Me</CardTitle>
-                    <CardDescription>Connect with me on these platforms</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
-                      <a
-                        href="mailto:junleng.poh@gmail.com"
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                      >
-                        <div className="p-2 bg-slate-200 dark:bg-slate-700 rounded-full">
-                          <Mail size={24} />
-                        </div>
-                        <div>
-                          <h4 className="font-medium">Email</h4>
-                          <p className="text-sm text-slate-600 dark:text-slate-400">junleng.poh@gmail.com</p>
-                        </div>
-                      </a>
-                      <a
-                        href="https://t.me/somebrownguy"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                      >
-                        <div className="p-2 bg-slate-200 dark:bg-slate-700 rounded-full">
-                          <MousePointer2 size={24} />
-                        </div>
-                        <div>
-                          <h4 className="font-medium">Telegram</h4>
-                          <p className="text-sm text-slate-600 dark:text-slate-400">t.me/somebrownguy</p>
-                        </div>
-                      </a>
-                      <a
-                        href="https://www.linkedin.com/in/poh-jun-leng/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                      >
-                        <div className="p-2 bg-slate-200 dark:bg-slate-700 rounded-full">
-                          <Linkedin size={24} />
-                        </div>
-                        <div>
-                          <h4 className="font-medium">LinkedIn</h4>
-                          <p className="text-sm text-slate-600 dark:text-slate-400">linkedin.com/in/poh-jun-leng</p>
-                        </div>
-                      </a>
-                      <a
-                        href="https://www.instagram.com/_junleng/?hl=en"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                      >
-                        <div className="p-2 bg-slate-200 dark:bg-slate-700 rounded-full">
-                          <Instagram size={24} />
-                        </div>
-                        <div>
-                          <h4 className="font-medium">Instagram</h4>
-                          <p className="text-sm text-slate-600 dark:text-slate-400">instagram.com/_junleng</p>
-                        </div>
-                      </a>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* Back to top button */}
-        <motion.button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className={`fixed right-6 bottom-6 p-3 bg-blue-600 text-white rounded-full shadow-lg transition-opacity duration-300 ${scrollY > 300 ? 'opacity-100' : 'opacity-0'}`}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          aria-label="Back to top"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-          </svg>
-        </motion.button>
-      </div>
-    </div>
+      <Motion.button
+        type="button"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        className={`fixed bottom-6 right-6 z-40 grid size-11 place-items-center rounded-md border border-stone-200 bg-stone-50 text-stone-950 shadow-sm transition-opacity duration-300 dark:border-stone-800 dark:bg-[#0e0e0d] dark:text-stone-50 ${
+          scrollY > 360 ? 'opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        whileHover={{ y: -2 }}
+        whileTap={{ scale: 0.96 }}
+        aria-label="Back to top"
+      >
+        <ArrowUp className="size-5" />
+      </Motion.button>
+    </main>
   );
 }
+
+export default LandingPage;
