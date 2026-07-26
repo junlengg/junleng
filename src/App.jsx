@@ -13,7 +13,6 @@ import {
   Mail,
   Menu,
   Moon,
-  ShieldCheck,
   Sun,
   Terminal,
   X,
@@ -43,10 +42,10 @@ const roleTargets = [
   'Trading Systems Intern',
 ];
 
-const credibilityNotes = [
-  'Completed work is separated from ongoing project direction.',
-  'Trading analysis is labelled as simulated, not live capital.',
-  'Unvalidated ventures are kept off the site until there is real traction.',
+const engineeringPrinciples = [
+  'Make the strongest evidence easy to scan first.',
+  'Build small systems with clear constraints, metrics and failure modes.',
+  'Translate math, data and backend foundations into market-focused projects.',
 ];
 
 const profileArc = [
@@ -396,11 +395,11 @@ function App() {
               ))}
             </div>
             <div className="mt-7 border-t border-neutral-950/10 pt-5 dark:border-white/10">
-              <p className="font-mono text-[10px] uppercase text-neutral-500">Credibility filter</p>
+              <p className="font-mono text-[10px] uppercase text-neutral-500">Engineering approach</p>
               <ul className="mt-4 space-y-3">
-                {credibilityNotes.map((item) => (
+                {engineeringPrinciples.map((item) => (
                   <li key={item} className="flex gap-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
-                    <ShieldCheck className="mt-1 size-4 shrink-0 text-cyan-700 dark:text-cyan-300" />
+                    <Check className="mt-1 size-4 shrink-0 text-cyan-700 dark:text-cyan-300" />
                     <span>{item}</span>
                   </li>
                 ))}
