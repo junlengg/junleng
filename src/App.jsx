@@ -44,9 +44,27 @@ const roleTargets = [
 ];
 
 const credibilityNotes = [
-  'Completed work is separated from current build direction.',
+  'Completed work is separated from ongoing project direction.',
   'Trading analysis is labelled as simulated, not live capital.',
   'Unvalidated ventures are kept off the site until there is real traction.',
+];
+
+const profileArc = [
+  {
+    label: '01',
+    title: 'Shipped software',
+    copy: 'Internal attendance tooling, reliability fixes and automation for real operational users.',
+  },
+  {
+    label: '02',
+    title: 'Ongoing quant projects',
+    copy: 'Market microstructure, statistical arbitrage and simulated trading-performance analysis.',
+  },
+  {
+    label: '03',
+    title: 'Systems foundation',
+    copy: 'C++, algorithms, probability, statistics, optimisation and backend-oriented engineering.',
+  },
 ];
 
 const experience = [
@@ -135,7 +153,7 @@ const provenWork = [
 const quantDirection = [
   {
     title: 'Market Microstructure Simulator',
-    status: 'Current build',
+    status: 'Ongoing project',
     summary:
       'Event-driven limit order book for studying order flow, liquidity, latency and execution quality.',
     proof: 'Intended proof: matching engine, price-time priority, slippage and fill analysis.',
@@ -143,7 +161,7 @@ const quantDirection = [
   },
   {
     title: 'Pairs Trading Backtester',
-    status: 'Current build',
+    status: 'Ongoing project',
     summary:
       'Statistical-arbitrage research pipeline for identifying and evaluating mean-reverting equity pairs.',
     proof: 'Intended proof: cointegration, ADF testing, spread modelling, Sharpe ratio and drawdown.',
@@ -405,6 +423,28 @@ function App() {
               </div>
             ))}
           </div>
+
+          <div className="mt-5 grid overflow-hidden rounded-lg border border-neutral-950/10 bg-[#f3f1ea]/82 backdrop-blur dark:border-white/10 dark:bg-white/[0.035] lg:grid-cols-3">
+            {profileArc.map((item, index) => (
+              <div
+                key={item.title}
+                className={`p-5 sm:p-6 ${index > 0 ? 'border-t border-neutral-950/10 dark:border-white/10 lg:border-l lg:border-t-0' : ''}`}
+              >
+                <div className="flex items-center justify-between gap-4">
+                  <span className="font-mono text-[10px] uppercase text-cyan-800 dark:text-cyan-300">
+                    {item.label}
+                  </span>
+                  <span className="h-px w-10 bg-neutral-950/14 dark:bg-white/14" />
+                </div>
+                <h2 className="mt-5 text-xl font-semibold tracking-normal text-neutral-950 dark:text-neutral-50">
+                  {item.title}
+                </h2>
+                <p className="mt-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+                  {item.copy}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -465,10 +505,10 @@ function App() {
             index="02"
             eyebrow="Proven Work"
             title="Completed work that can be explained quickly."
-            copy="Inspired by strong developer portfolios: show fewer things, make each thing understandable, and attach the evidence directly to the work."
+            copy="Three completed projects with concrete outcomes, implementation detail and enough context for a recruiter to understand the engineering work quickly."
           />
 
-          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
             {provenWork.map((project, index) => {
               const Icon = project.icon;
               return (
@@ -479,7 +519,9 @@ function App() {
                   whileInView="visible"
                   transition={{ duration: 0.45, delay: index * 0.04 }}
                   viewport={{ once: true, margin: '-60px' }}
-                  className="flex min-h-[28rem] flex-col rounded-lg border border-neutral-950/10 bg-white/60 p-5 transition-all hover:-translate-y-1 hover:bg-white/85 hover:shadow-[0_20px_60px_rgba(20,20,18,0.07)] dark:border-white/10 dark:bg-white/[0.035] dark:hover:bg-white/[0.055] sm:p-6"
+                  className={`flex flex-col rounded-lg border border-neutral-950/10 bg-white/60 p-5 transition-all hover:-translate-y-1 hover:bg-white/85 hover:shadow-[0_20px_60px_rgba(20,20,18,0.07)] dark:border-white/10 dark:bg-white/[0.035] dark:hover:bg-white/[0.055] sm:p-6 ${
+                    index === 0 ? 'lg:col-span-2' : 'min-h-[25rem]'
+                  }`}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <span className="grid size-10 place-items-center rounded-md bg-neutral-950 text-white dark:bg-white dark:text-neutral-950">
@@ -491,7 +533,7 @@ function App() {
                   </div>
                   <h3 className="mt-6 text-2xl font-semibold tracking-normal">{project.title}</h3>
                   <p className="mt-4 leading-7 text-neutral-600 dark:text-neutral-400">{project.summary}</p>
-                  <div className="mt-6 grid gap-2">
+                  <div className={`mt-6 grid gap-2 ${index === 0 ? 'sm:grid-cols-3' : ''}`}>
                     {project.outcomes.map((outcome) => (
                       <div key={outcome} className="border-t border-neutral-950/10 pt-2 font-mono text-[10px] uppercase leading-5 text-neutral-500 dark:border-white/10">
                         {outcome}
@@ -528,8 +570,8 @@ function App() {
           <SectionHeading
             index="03"
             eyebrow="Quant Direction"
-            title="Current builds, labelled honestly."
-            copy="These are the market-focused projects that point toward quant development. They are presented as current builds or simulated analysis, not exaggerated work history."
+            title="Ongoing projects, labelled honestly."
+            copy="These are the market-focused projects that point toward quant development. They are presented as ongoing projects or simulated analysis, not exaggerated work history."
           />
 
           <div className="mt-12 overflow-hidden rounded-lg border border-neutral-950/10 dark:border-white/10">
