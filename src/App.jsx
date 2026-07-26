@@ -2,168 +2,169 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   ArrowUp,
+  ArrowUpRight,
+  Check,
   Download,
-  ExternalLink,
-  Github,
-  Instagram,
-  Linkedin,
+  GraduationCap,
   Mail,
+  Menu,
   Moon,
-  Send,
   Sun,
+  X,
 } from 'lucide-react';
-
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 
 const Motion = motion;
 
 const navItems = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
   { id: 'work', label: 'Work' },
-  { id: 'education', label: 'Education' },
   { id: 'projects', label: 'Projects' },
+  { id: 'about', label: 'About' },
   { id: 'contact', label: 'Contact' },
 ];
 
 const proofPoints = [
-  { value: '90%', label: 'clock-in time improvement' },
-  { value: '100+', label: 'employee-scale workflow' },
-  { value: 'SUTD', label: 'bachelor degree in progress' },
+  { value: '90%', label: 'faster employee clock-in workflow' },
+  { value: '~99%', label: 'location validation accuracy' },
+  { value: '47/50', label: 'formal employer assessment' },
+  { value: '150+', label: 'simulated trades analysed' },
 ];
 
-const strengths = [
-  'Responsive React interfaces',
-  'Firebase and Firestore workflows',
-  'Python automation for practical operations',
-  'AI coursework and product-minded development',
-];
-
-const skillGroups = [
-  ['Languages', ['Python', 'JavaScript', 'HTML', 'CSS']],
-  ['Frontend', ['React', 'TailwindCSS', 'Framer Motion']],
-  ['Data & AI', ['Firestore', 'SQL', 'Keras', 'Numpy']],
-  ['APIs', ['Firebase', 'Google Maps API', 'ChatGPT API']],
+const focusAreas = [
+  'Python and C++ engineering',
+  'Quantitative research systems',
+  'Backend and data workflows',
+  'Automation for real users',
 ];
 
 const experience = [
   {
-    title: 'Software Developer',
+    role: 'Software Developer Intern',
     company: 'Aktus M.U. Kreativ Pte Ltd',
-    period: 'March 2022 - August 2022',
-    description:
-      'Returned as a freelance software engineer after a strong internship performance.',
-    achievements: [
-      'Created a Python web application that helped companies averaging 100 employees streamline clock-in time by 90%.',
-      'Used Google Maps API to compare user location against company preset locations.',
-      'Used Google Firestore to create and retrieve clock-in, clock-out, and location data.',
+    period: 'Mar 2021 - Jul 2021',
+    summary:
+      'Worked on application reliability, responsive UI behavior and Firestore data protection.',
+    details: [
+      'Created Firestore security protocols to reduce data tampering risk.',
+      'Fixed a repeated clock-in bug caused by page refresh behavior.',
+      'Implemented responsive CSS resizing for different application display sizes.',
+      'Received a 47/50 formal employer assessment across communication, teamwork and independent learning.',
     ],
   },
   {
-    title: 'Software Developer Intern',
+    role: 'Software Developer - Freelance',
     company: 'Aktus M.U. Kreativ Pte Ltd',
-    period: 'March 2021 - July 2021',
-    description: 'School internship focused on improving internal software reliability.',
-    achievements: [
-      'Implemented Firestore security rules to protect sensitive data.',
-      'Resolved a duplicate clock-in bug triggered by page refreshes.',
-      'Improved UI responsiveness across screen sizes.',
+    period: 'Mar 2022 - Aug 2022',
+    summary:
+      'Built a full-stack attendance workflow from scratch after being requested back by the CEO following internship performance.',
+    details: [
+      'Improved clock-in time for roughly 100 employees by 90%.',
+      'Integrated Google Maps API to validate employee clock-in location against the company address.',
+      'Used Python, Flask, JavaScript, Bootstrap and Google Firestore for the application stack.',
+      'Deployed testing builds through ngrok while the product moved toward beta testing.',
     ],
   },
   {
-    title: 'National Service',
-    company: 'Singapore Navy',
-    period: 'October 2022 - October 2024',
-    description: 'Mandatory National Service for Singaporeans.',
-    achievements: [
-      'Built Excel sheets to track NSF parade states.',
-      'Built certificate tracking to prevent duplicated printing.',
-      'Managed NSMen messaging software through Postman.',
+    role: 'Administrative Support Assistant',
+    company: 'Republic of Singapore Navy',
+    period: 'Oct 2022 - Oct 2024',
+    summary:
+      'Maintained operational records and built lightweight administrative systems during National Service.',
+    details: [
+      'Used Excel and VBA to reduce repetitive administrative work.',
+      'Handled verification workflows and sensitive operational information.',
     ],
   },
+];
+
+const projects = [
   {
-    title: 'Travelling',
-    company: 'Travelling the World',
-    period: 'October 2024 - June 2025',
-    description: 'Experienced lifestyles across other countries before beginning university.',
-    achievements: ['Melbourne x2', 'Tasmania', 'Korea', 'Kuala Lumpur', 'Johor Bahru', 'Japan'],
+    title: 'Market Microstructure Simulator',
+    category: 'Quant systems',
+    summary:
+      'Event-driven limit order book for studying how order flow, liquidity and latency affect execution quality.',
+    details: [
+      'Price-time priority matching for simulated market and limit orders.',
+      'Poisson-based order flow with spread, fill probability and slippage analysis.',
+    ],
+    tags: ['Python', 'Event-driven systems', 'Market microstructure'],
+  },
+  {
+    title: 'Pairs Trading Backtester',
+    category: 'Research pipeline',
+    summary:
+      'Statistical-arbitrage pipeline for identifying and evaluating mean-reverting equity pairs.',
+    details: [
+      'Cointegration, ADF testing and spread modelling for signal generation.',
+      'Evaluates Sharpe ratio, drawdown and simulated execution metrics.',
+    ],
+    tags: ['Python', 'pandas', 'statsmodels'],
+  },
+  {
+    title: 'Trading Performance Analysis',
+    category: 'Simulated evaluation',
+    summary:
+      'Trade-review system for evaluating a simulated proprietary-trading challenge under profit-target and drawdown rules.',
+    details: [
+      'Analysed 150+ simulated trades with win rate, expectancy, position sizing and drawdown.',
+      'Separated performance evidence from live-capital claims so the framing stays precise and credible.',
+    ],
+    tags: ['Risk analysis', 'Trade journal', 'Position sizing'],
+  },
+  {
+    title: 'NVIDIA Stock Prediction',
+    category: 'Machine learning',
+    summary:
+      'Recurrent neural network experiment using five years of Yahoo Finance close-price data.',
+    details: [
+      'Prepared train/test sets with MinMaxScaler and visualised predictions with Matplotlib.',
+      'Built a Keras Sequential model using Adam optimisation and mean squared error.',
+    ],
+    tags: ['Python', 'Keras', 'Yahoo Finance API'],
+  },
+  {
+    title: 'SuperCart',
+    category: 'Computer vision',
+    summary:
+      'Raspberry Pi grocery-checkout prototype that turns object detections into checkout-ready records.',
+    details: [
+      'Integrated YOLOv8 inference with a Raspberry Pi camera and JSON checkout pipeline.',
+      'Reached 89% successful detection across controlled trials.',
+    ],
+    tags: ['Python', 'YOLOv8', 'Raspberry Pi'],
   },
 ];
 
 const education = [
   {
-    title: 'Bachelors Degree',
-    institution: 'SUTD',
-    period: '2025 - Present',
-    description:
-      'Currently working on obtaining a Bachelors Degree at Singapore University of Technology and Design.',
-    achievements: ['Attended additional computing classes through a Python refresher course.'],
+    school: 'Singapore University of Technology and Design',
+    credential: 'Bachelor of Engineering, Computer Science and Design',
+    period: 'Expected May 2029',
+    detail: 'Linear Algebra, Multivariable Calculus, Optimisation, Probability and Statistics',
   },
   {
-    title: 'Diploma in Information Technology',
-    institution: 'Nanyang Polytechnic',
+    school: 'Nanyang Polytechnic',
+    credential: 'Diploma in Information Technology, Artificial Intelligence',
     period: '2019 - 2021',
-    description: 'Specialized in artificial intelligence and software development fundamentals.',
-    achievements: [
-      'Coursework: Python, JavaScript, HTML/CSS.',
-      'Data Structures & Algorithms, Advanced Programming.',
-      'Foundation of AI, Machine Learning Techniques.',
-    ],
-  },
-  {
-    title: 'O-Level Certificate',
-    institution: 'Dunman High Secondary',
-    period: '2014 - 2018',
-    description: 'Achieved O-Level Certificate.',
-    achievements: ['Appointed as Assistant Patrol Leader for my group in Scouts CCA.'],
+    detail:
+      'Databases, Data Structures and Algorithms, Advanced Programming, Foundation of AI, Machine Learning, Robotic Process Automation',
   },
 ];
 
-const project = {
-  title: 'FragmentAI',
-  description:
-    'A website created with the intent to help break down medical tasks into checklists utilizing the ChatGPT API.',
-  image: '/fragmentai.JPG',
-  tags: ['ReactJS', 'TailwindCSS', 'Firebase', 'Framer Motion', 'ChatGPT API'],
-  live: 'https://fragment-ai-kappa.vercel.app/',
-};
-
-const contacts = [
-  {
-    label: 'Email',
-    value: 'junleng.poh@gmail.com',
-    href: 'mailto:junleng.poh@gmail.com',
-    icon: Mail,
-  },
-  {
-    label: 'Telegram',
-    value: 't.me/somebrownguy',
-    href: 'https://t.me/somebrownguy',
-    icon: Send,
-  },
-  {
-    label: 'LinkedIn',
-    value: 'linkedin.com/in/poh-jun-leng',
-    href: 'https://www.linkedin.com/in/poh-jun-leng/',
-    icon: Linkedin,
-  },
-  {
-    label: 'Instagram',
-    value: 'instagram.com/_junleng',
-    href: 'https://www.instagram.com/_junleng/?hl=en',
-    icon: Instagram,
-  },
+const skillGroups = [
+  ['Programming', ['Python', 'C++', 'SQL', 'JavaScript', 'Git']],
+  ['Quant & data', ['Probability', 'Statistics', 'Optimisation', 'NumPy', 'pandas']],
+  ['Systems', ['Data Structures', 'Algorithms', 'OOP', 'Backend Engineering', 'Databases']],
+  ['Tools', ['React', 'Flask', 'Firestore', 'REST APIs', 'Keras', 'Matplotlib']],
 ];
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 1, y: 10 },
   visible: { opacity: 1, y: 0 },
 };
 
-const scrollOffset = 88;
+const containerClass = 'mx-auto w-full max-w-6xl px-5 sm:px-7 lg:px-10';
 
-function SectionHeader({ eyebrow, title, copy }) {
+function SectionHeading({ index, eyebrow, title, copy }) {
   return (
     <Motion.div
       variants={fadeUp}
@@ -171,280 +172,253 @@ function SectionHeader({ eyebrow, title, copy }) {
       whileInView="visible"
       transition={{ duration: 0.45 }}
       viewport={{ once: true, margin: '-80px' }}
-      className="mb-10"
+      className="grid gap-5 border-t border-neutral-950/12 pt-6 dark:border-white/12 md:grid-cols-[8rem_1fr]"
     >
-      <p className="text-sm font-medium text-stone-500 dark:text-stone-400">{eyebrow}</p>
-      <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-normal text-stone-950 dark:text-stone-50 md:text-4xl">
-        {title}
-      </h2>
-      {copy && (
-        <p className="mt-4 max-w-2xl text-base leading-7 text-stone-600 dark:text-stone-300">
-          {copy}
-        </p>
-      )}
+      <p className="font-mono text-xs uppercase text-neutral-500 dark:text-neutral-500">
+        {index} / {eyebrow}
+      </p>
+      <div className="max-w-3xl">
+        <h2 className="text-3xl font-semibold leading-tight tracking-normal text-neutral-950 dark:text-neutral-50 md:text-5xl">
+          {title}
+        </h2>
+        {copy && (
+          <p className="mt-4 max-w-2xl text-base leading-7 text-neutral-600 dark:text-neutral-400 md:text-lg">
+            {copy}
+          </p>
+        )}
+      </div>
     </Motion.div>
   );
 }
 
-function LandingPage() {
+function App() {
   const [darkMode, setDarkMode] = useState(true);
-  const [activeSection, setActiveSection] = useState('home');
-  const [scrollY, setScrollY] = useState(0);
-
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [showTop, setShowTop] = useState(false);
   const currentYear = useMemo(() => new Date().getFullYear(), []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-
-      let currentSection = navItems[0].id;
-
-      for (const item of navItems) {
-        const element = document.getElementById(item.id);
-        if (!element) continue;
-
-        const sectionTop = element.offsetTop - scrollOffset - 24;
-        if (window.scrollY >= sectionTop) {
-          currentSection = item.id;
-        }
-      }
-
-      setActiveSection(currentSection);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
   }, [darkMode]);
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (!element) return;
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > 560);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-    const top = sectionId === 'home' ? 0 : element.offsetTop - scrollOffset;
-    window.scrollTo({ top, behavior: 'smooth' });
+  const goTo = (id) => {
+    setMenuOpen(false);
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <main className="min-h-screen bg-stone-50 text-stone-950 transition-colors duration-300 dark:bg-[#0e0e0d] dark:text-stone-50">
-      <header
-        className={`fixed top-0 z-50 w-full transition-colors duration-300 ${
-          scrollY > 20
-            ? 'border-b border-stone-200 bg-stone-50/90 backdrop-blur-xl dark:border-stone-800 dark:bg-[#0e0e0d]/90'
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4">
+    <main className="min-h-screen overflow-x-clip bg-[#f6f5f1] text-neutral-950 transition-colors duration-300 dark:bg-[#0f0f0e] dark:text-neutral-50">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-neutral-950/8 bg-[#f6f5f1]/88 backdrop-blur-xl dark:border-white/8 dark:bg-[#0f0f0e]/88">
+        <div className={`${containerClass} flex h-16 items-center justify-between`}>
           <button
             type="button"
-            onClick={() => scrollToSection('home')}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             className="flex items-center gap-3 text-left"
-            aria-label="Go to top"
           >
-            <span className="text-sm font-semibold">Poh Jun Leng</span>
-            <span className="hidden text-sm text-stone-500 dark:text-stone-400 sm:inline">
-              Software Engineer
+            <span className="grid size-8 place-items-center rounded-md bg-neutral-950 font-mono text-[10px] font-semibold text-white dark:bg-white dark:text-neutral-950">
+              JL
             </span>
+            <span className="hidden text-sm font-semibold sm:block">Poh Jun Leng</span>
           </button>
 
-          <nav className="hidden items-center gap-5 md:flex">
-            {navItems.slice(1).map((item) => (
+          <nav className="hidden items-center gap-6 md:flex" aria-label="Primary navigation">
+            {navItems.map((item) => (
               <button
                 key={item.id}
                 type="button"
-                onClick={() => scrollToSection(item.id)}
-                className={`text-sm transition-colors ${
-                  activeSection === item.id
-                    ? 'text-stone-950 dark:text-stone-50'
-                    : 'text-stone-500 hover:text-stone-950 dark:text-stone-400 dark:hover:text-stone-50'
-                }`}
+                onClick={() => goTo(item.id)}
+                className="text-sm text-neutral-500 transition-colors hover:text-neutral-950 dark:text-neutral-400 dark:hover:text-white"
               >
                 {item.label}
               </button>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2">
-            <Button asChild variant="ghost" className="hidden h-9 px-3 md:inline-flex">
-              <a href="/JunLengResume.pdf" download="Jun Leng's Resume.pdf">
-                <Download />
-                Resume
-              </a>
-            </Button>
-            <Button
+          <div className="flex items-center gap-1.5">
+            <a
+              href="/JunLengResume.pdf"
+              download="Poh-Jun-Leng-Resume.pdf"
+              className="hidden items-center gap-2 rounded-md border border-neutral-950/10 px-4 py-2 text-sm font-medium text-neutral-700 transition-colors hover:bg-neutral-950/[0.04] hover:text-neutral-950 dark:border-white/12 dark:text-neutral-200 dark:hover:bg-white/[0.06] dark:hover:text-white sm:inline-flex"
+            >
+              <Download className="size-4" />
+              Resume
+            </a>
+            <button
               type="button"
-              variant="ghost"
-              size="icon"
               onClick={() => setDarkMode((value) => !value)}
+              className="grid size-9 place-items-center rounded-md transition-colors hover:bg-neutral-950/[0.05] dark:hover:bg-white/[0.07]"
               aria-label={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             >
-              {darkMode ? <Sun /> : <Moon />}
-            </Button>
+              {darkMode ? <Sun className="size-4" /> : <Moon className="size-4" />}
+            </button>
+            <button
+              type="button"
+              onClick={() => setMenuOpen((value) => !value)}
+              className="grid size-9 place-items-center rounded-md transition-colors hover:bg-neutral-950/[0.05] dark:hover:bg-white/[0.07] md:hidden"
+              aria-label="Toggle navigation"
+              aria-expanded={menuOpen}
+            >
+              {menuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            </button>
           </div>
         </div>
+
+        {menuOpen && (
+          <nav
+            className={`${containerClass} border-t border-neutral-950/8 py-4 dark:border-white/8 md:hidden`}
+            aria-label="Mobile navigation"
+          >
+            <div className="grid gap-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => goTo(item.id)}
+                  className="rounded-md px-3 py-3 text-left text-sm text-neutral-600 hover:bg-neutral-950/[0.04] dark:text-neutral-300 dark:hover:bg-white/[0.05]"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+          </nav>
+        )}
       </header>
 
-      <section id="home" className="px-5 pb-20 pt-32 md:pb-28 md:pt-40">
-        <Motion.div
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ duration: 0.55 }}
-          className="mx-auto max-w-5xl"
-        >
-          <div className="mb-6 flex flex-wrap items-center gap-3 text-sm text-stone-500 dark:text-stone-400">
-            <span>Available for work</span>
-            <span className="h-px w-8 bg-stone-300 dark:bg-stone-700" />
-            <span>Singapore</span>
-          </div>
+      <section className="pt-16">
+        <div className={`${containerClass} grid min-h-[calc(100vh-4rem)] items-center py-16 lg:py-20`}>
+          <Motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.5 }}>
+            <div className="mb-7 flex flex-wrap gap-2">
+              {['Open to internships', 'Singapore', 'SUTD CSD'].map((item) => (
+                <span
+                  key={item}
+                  className="rounded-md border border-neutral-950/10 bg-white/45 px-3 py-1.5 font-mono text-[11px] uppercase text-neutral-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-neutral-400"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
 
-          <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] tracking-normal text-stone-950 dark:text-stone-50 md:text-7xl">
-            Software engineer building useful web products.
-          </h1>
+            <h1 className="max-w-4xl text-5xl font-semibold leading-[0.98] tracking-normal text-neutral-950 dark:text-neutral-50 md:text-6xl">
+              Software engineering for data, markets and reliable systems.
+            </h1>
 
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-stone-600 dark:text-stone-300">
-            I am Poh Jun Leng, a 23 year old software engineer focused on React,
-            Firebase, Python, and AI-assisted workflows. I care about clean interfaces,
-            dependable data flows, and products that make real work easier.
-          </p>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-600 dark:text-neutral-400 md:text-xl">
+              I’m Poh Jun Leng, a Computer Science and Design undergraduate at SUTD. I build
+              quantitative research tools, backend workflows and automation systems with a bias
+              for clarity, correctness and practical impact.
+            </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button
-              size="lg"
-              onClick={() => scrollToSection('contact')}
-              className="h-11 bg-stone-950 px-5 text-stone-50 hover:bg-stone-800 dark:bg-stone-50 dark:text-stone-950 dark:hover:bg-stone-200"
-            >
-              <Mail />
-              Get in touch
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              onClick={() => scrollToSection('projects')}
-              className="h-11 border-stone-300 bg-transparent px-5 dark:border-stone-700"
-            >
-              <ExternalLink />
-              View work
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="h-11 border-stone-300 bg-transparent px-5 dark:border-stone-700 md:hidden"
-            >
-              <a href="/JunLengResume.pdf" download="Jun Leng's Resume.pdf">
-                <Download />
-                Resume
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={() => goTo('projects')}
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-neutral-950 px-6 text-sm font-semibold text-white transition-transform hover:-translate-y-0.5 dark:bg-white dark:text-neutral-950"
+              >
+                View projects
+                <ArrowUpRight className="size-4" />
+              </button>
+              <a
+                href="mailto:junleng.poh@gmail.com"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md border border-neutral-950/12 px-6 text-sm font-semibold text-neutral-800 transition-colors hover:bg-neutral-950/[0.04] hover:text-neutral-950 dark:border-white/14 dark:text-neutral-100 dark:hover:bg-white/[0.06] dark:hover:text-white"
+              >
+                Contact me
+                <Mail className="size-4" />
               </a>
-            </Button>
-          </div>
+            </div>
 
-          <div className="mt-14 grid gap-6 border-y border-stone-200 py-6 dark:border-stone-800 sm:grid-cols-3">
-            {proofPoints.map((point) => (
-              <div key={point.label}>
-                <p className="text-3xl font-semibold">{point.value}</p>
-                <p className="mt-1 text-sm leading-5 text-stone-500 dark:text-stone-400">
+            <div className="mt-8 flex max-w-2xl items-center gap-4 rounded-lg border border-neutral-950/10 bg-white/50 p-3 backdrop-blur dark:border-white/10 dark:bg-white/[0.035]">
+              <img
+                src="/profile-hero.jpg"
+                alt="Poh Jun Leng"
+                className="size-16 shrink-0 rounded-md object-cover object-[70%_42%]"
+              />
+              <div>
+                <p className="font-mono text-[10px] uppercase text-neutral-500">Current direction</p>
+                <p className="mt-1 text-sm leading-6 text-neutral-700 dark:text-neutral-300">
+                  Quantitative development, trading systems, backend engineering and FinTech internships.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-12 grid gap-3 sm:grid-cols-2">
+              {focusAreas.map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center gap-3 border-t border-neutral-950/10 pt-3 text-sm text-neutral-600 dark:border-white/10 dark:text-neutral-400"
+                >
+                  <Check className="size-4 shrink-0 text-neutral-950 dark:text-white" />
+                  {item}
+                </div>
+              ))}
+            </div>
+          </Motion.div>
+        </div>
+
+        <div className={`${containerClass} pb-20`}>
+          <div className="grid border-y border-neutral-950/10 dark:border-white/10 sm:grid-cols-4">
+            {proofPoints.map((point, index) => (
+              <div
+                key={point.label}
+                className={`py-6 ${index > 0 ? 'sm:border-l sm:border-neutral-950/10 sm:pl-6 dark:sm:border-white/10' : ''}`}
+              >
+                <p className="text-3xl font-semibold tracking-normal">{point.value}</p>
+                <p className="mt-1 font-mono text-[10px] uppercase leading-5 text-neutral-500 dark:text-neutral-500">
                   {point.label}
                 </p>
               </div>
             ))}
           </div>
-        </Motion.div>
-      </section>
-
-      <section id="about" className="px-5 py-20">
-        <div className="mx-auto max-w-5xl">
-          <SectionHeader
-            eyebrow="About"
-            title="Clear thinker, practical builder, fast learner."
-            copy="I like building web applications where the details matter: responsive interfaces, protected data, and flows that remove friction from everyday work."
-          />
-
-          <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr]">
-            <Motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 0.45 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-sm font-medium uppercase tracking-[0.16em] text-stone-500 dark:text-stone-400">
-                What I bring
-              </h3>
-              <ul className="mt-5 space-y-3">
-                {strengths.map((strength) => (
-                  <li key={strength} className="border-l border-stone-300 pl-4 text-stone-700 dark:border-stone-700 dark:text-stone-300">
-                    {strength}
-                  </li>
-                ))}
-              </ul>
-            </Motion.div>
-
-            <Motion.div
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              transition={{ duration: 0.45, delay: 0.05 }}
-              viewport={{ once: true }}
-              className="grid gap-6 sm:grid-cols-2"
-            >
-              {skillGroups.map(([group, skills]) => (
-                <div key={group}>
-                  <h3 className="text-sm font-medium text-stone-500 dark:text-stone-400">
-                    {group}
-                  </h3>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {skills.map((skill) => (
-                      <Badge
-                        key={skill}
-                        variant="outline"
-                        className="border-stone-300 bg-transparent text-stone-700 dark:border-stone-700 dark:text-stone-300"
-                      >
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </Motion.div>
-          </div>
         </div>
       </section>
 
-      <section id="work" className="border-t border-stone-200 px-5 py-20 dark:border-stone-800">
-        <div className="mx-auto max-w-5xl">
-          <SectionHeader
+      <section id="work" className="scroll-mt-24 py-20">
+        <div className={containerClass}>
+          <SectionHeading
+            index="01"
             eyebrow="Work"
-            title="Experience shaped around reliability and business impact."
-            copy="The through-line is simple: spot the friction, build the tool, and make the workflow more dependable."
+            title="Experience in sequence."
+            copy="A chronological view of the roles that shaped my software judgment: reliability fixes, internal tools, workflow automation and operational discipline."
           />
 
-          <div className="divide-y divide-stone-200 dark:divide-stone-800">
-            {experience.map((job, index) => (
+          <div className="mt-12 grid gap-4">
+            {experience.map((item, index) => (
               <Motion.article
-                key={`${job.company}-${job.period}`}
+                key={item.role}
                 variants={fadeUp}
                 initial="hidden"
                 whileInView="visible"
                 transition={{ duration: 0.45, delay: index * 0.04 }}
-                viewport={{ once: true, margin: '-80px' }}
-                className="grid gap-5 py-8 md:grid-cols-[0.35fr_0.65fr]"
+                viewport={{ once: true }}
+                className="group grid gap-6 rounded-lg border border-neutral-950/10 bg-white/56 p-5 transition-all hover:-translate-y-1 hover:bg-white/80 hover:shadow-[0_20px_60px_rgba(20,20,18,0.07)] dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.045] sm:p-6 md:grid-cols-[10rem_1fr]"
               >
-                <div>
-                  <p className="text-sm text-stone-500 dark:text-stone-400">{job.period}</p>
-                  <h3 className="mt-2 text-xl font-semibold">{job.title}</h3>
-                  <p className="mt-1 text-stone-600 dark:text-stone-300">{job.company}</p>
+                <div className="flex items-start gap-4 md:block">
+                  <span className="grid size-10 shrink-0 place-items-center rounded-md bg-neutral-950 font-mono text-[11px] text-white transition-transform group-hover:-translate-y-0.5 dark:bg-white dark:text-neutral-950">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="min-w-0 md:mt-5">
+                    <p className="font-mono text-xs uppercase leading-5 text-neutral-500">{item.period}</p>
+                    <p className="mt-2 text-sm leading-6 text-neutral-500">{item.company}</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="leading-7 text-stone-600 dark:text-stone-300">{job.description}</p>
-                  <ul className="mt-4 space-y-2">
-                    {job.achievements.map((achievement) => (
-                      <li key={achievement} className="leading-7 text-stone-700 dark:text-stone-300">
-                        {achievement}
+                <div className="min-w-0">
+                  <h3 className="text-2xl font-semibold tracking-normal text-neutral-950 dark:text-neutral-50">
+                    {item.role}
+                  </h3>
+                  <p className="mt-3 max-w-2xl leading-7 text-neutral-600 dark:text-neutral-400">
+                    {item.summary}
+                  </p>
+                  <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+                    {item.details.map((detail) => (
+                      <li key={detail} className="flex gap-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+                        <span className="mt-2 size-1.5 shrink-0 rounded-full bg-neutral-950 dark:bg-white" />
+                        {detail}
                       </li>
                     ))}
                   </ul>
@@ -455,188 +429,222 @@ function LandingPage() {
         </div>
       </section>
 
-      <section id="education" className="border-t border-stone-200 px-5 py-20 dark:border-stone-800">
-        <div className="mx-auto max-w-5xl">
-          <SectionHeader
-            eyebrow="Education"
-            title="Foundations in IT, AI, and computing."
-            copy="My education connects software fundamentals with AI coursework and continued computing practice."
+      <section id="projects" className="scroll-mt-24 py-20">
+        <div className={containerClass}>
+          <SectionHeading
+            index="02"
+            eyebrow="Projects"
+            title="A small portfolio of applied systems."
+            copy="The strongest signals first: market mechanics, statistical testing, trading performance analysis and complete applied engineering work."
           />
 
-          <div className="grid gap-8 md:grid-cols-3">
-            {education.map((item, index) => (
-              <Motion.div
-                key={item.title}
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            {projects.map((project, index) => (
+              <Motion.article
+                key={project.title}
                 variants={fadeUp}
                 initial="hidden"
                 whileInView="visible"
-                transition={{ duration: 0.45, delay: index * 0.05 }}
-                viewport={{ once: true }}
-                className="border-t border-stone-200 pt-5 dark:border-stone-800"
+                transition={{ duration: 0.45, delay: index * 0.04 }}
+                viewport={{ once: true, margin: '-60px' }}
+                className={`rounded-lg border border-neutral-950/10 bg-white/58 p-5 transition-all hover:-translate-y-1 hover:bg-white/80 hover:shadow-[0_20px_60px_rgba(20,20,18,0.07)] dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.045] sm:p-6 ${
+                  project.image ? 'lg:col-span-2 lg:grid lg:grid-cols-[0.95fr_1.05fr] lg:gap-7' : ''
+                }`}
               >
-                <p className="text-sm text-stone-500 dark:text-stone-400">{item.period}</p>
-                <h3 className="mt-3 text-xl font-semibold">{item.title}</h3>
-                <p className="mt-1 text-stone-600 dark:text-stone-300">{item.institution}</p>
-                <p className="mt-4 leading-7 text-stone-600 dark:text-stone-300">{item.description}</p>
-                <ul className="mt-4 space-y-2 text-sm leading-6 text-stone-500 dark:text-stone-400">
-                  {item.achievements.map((achievement) => (
-                    <li key={achievement}>{achievement}</li>
-                  ))}
-                </ul>
-              </Motion.div>
+                {project.image && (
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block overflow-hidden rounded-md border border-neutral-950/10 bg-neutral-950 dark:border-white/10"
+                  >
+                    <img
+                      src={project.image}
+                      alt={`${project.title} screenshot`}
+                      className="aspect-[16/10] w-full object-cover object-left-top transition-transform duration-500 hover:scale-[1.02]"
+                    />
+                  </a>
+                )}
+
+                <div className={project.image ? 'mt-6 lg:mt-0 lg:flex lg:flex-col lg:justify-center' : ''}>
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="font-mono text-[11px] uppercase text-neutral-500">{project.category}</span>
+                    {project.href && (
+                      <a
+                        href={project.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs font-medium text-neutral-500 hover:text-neutral-950 dark:hover:text-white"
+                      >
+                        Live
+                        <ArrowUpRight className="size-3.5" />
+                      </a>
+                    )}
+                  </div>
+                  <h3 className="mt-5 text-2xl font-semibold tracking-normal md:text-3xl">{project.title}</h3>
+                  <p className="mt-4 max-w-xl leading-7 text-neutral-600 dark:text-neutral-400">
+                    {project.summary}
+                  </p>
+                  <ul className="mt-5 space-y-2">
+                    {project.details.map((detail) => (
+                      <li key={detail} className="flex gap-3 text-sm leading-6 text-neutral-600 dark:text-neutral-400">
+                        <Check className="mt-1 size-4 shrink-0 text-neutral-950 dark:text-white" />
+                        <span>{detail}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-md border border-neutral-950/10 px-2.5 py-1.5 font-mono text-[10px] uppercase text-neutral-500 dark:border-white/10 dark:text-neutral-500"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Motion.article>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="projects" className="border-t border-stone-200 px-5 py-20 dark:border-stone-800">
-        <div className="mx-auto max-w-5xl">
-          <SectionHeader
-            eyebrow="Projects"
-            title="Selected work."
-            copy="A focused project that shows how I combine React, Firebase, and AI-assisted workflows."
+      <section id="about" className="scroll-mt-24 py-20">
+        <div className={containerClass}>
+          <SectionHeading
+            index="03"
+            eyebrow="About"
+            title="Computer science foundations, applied deliberately."
+            copy="I’m interested in quantitative developer, software engineering, backend engineering, trading systems and FinTech internships."
           />
 
-          <Motion.article
+          <div className="mt-12 grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
+            <Motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              transition={{ duration: 0.45 }}
+              viewport={{ once: true }}
+            >
+              <p className="text-xl leading-9 text-neutral-700 dark:text-neutral-300">
+                My path started with internal software for a real company, continued through two
+                years of National Service, and now runs through SUTD’s Computer Science and Design
+                programme. I’m deepening my foundations in C++, algorithms, probability, statistics
+                and optimisation while applying them to market-focused software projects.
+              </p>
+
+              <div className="mt-9 space-y-4">
+                {education.map((item) => (
+                  <div key={item.school} className="rounded-lg border border-neutral-950/10 bg-white/52 p-5 dark:border-white/10 dark:bg-white/[0.03]">
+                    <div className="flex items-start gap-4">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-md bg-neutral-950 text-white dark:bg-white dark:text-neutral-950">
+                        <GraduationCap className="size-4" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                          <h3 className="font-semibold">{item.school}</h3>
+                          <span className="shrink-0 font-mono text-[10px] uppercase text-neutral-500">
+                            {item.period}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">{item.credential}</p>
+                        <p className="mt-3 text-xs leading-6 text-neutral-500">{item.detail}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Motion.div>
+
+            <Motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              transition={{ duration: 0.45, delay: 0.05 }}
+              viewport={{ once: true }}
+              className="grid gap-4 sm:grid-cols-2"
+            >
+              {skillGroups.map(([group, skills]) => (
+                <div key={group} className="rounded-lg border border-neutral-950/10 bg-white/52 p-5 dark:border-white/10 dark:bg-white/[0.03]">
+                  <p className="font-mono text-[10px] uppercase text-neutral-500">{group}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {skills.map((skill) => (
+                      <span
+                        key={skill}
+                        className="rounded-md border border-neutral-950/10 px-3 py-1.5 text-xs text-neutral-600 dark:border-white/12 dark:text-neutral-400"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </Motion.div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="scroll-mt-24 py-20">
+        <div className={containerClass}>
+          <Motion.div
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             transition={{ duration: 0.45 }}
-            viewport={{ once: true, margin: '-80px' }}
-            className="grid gap-8 border-t border-stone-200 pt-8 dark:border-stone-800 lg:grid-cols-[0.95fr_1.05fr]"
+            viewport={{ once: true }}
+            className="rounded-lg bg-neutral-950 px-6 py-14 text-white dark:bg-white dark:text-neutral-950 sm:px-10 md:px-14"
           >
-            <div className="overflow-hidden rounded-md border border-stone-200 bg-stone-100 dark:border-stone-800 dark:bg-stone-900">
-              <img
-                src={project.image}
-                alt={`${project.title} application screenshot`}
-                className="h-full min-h-[240px] w-full object-cover"
-              />
-            </div>
-
-            <div>
-              <h3 className="text-3xl font-semibold tracking-normal">{project.title}</h3>
-              <p className="mt-4 text-lg leading-8 text-stone-600 dark:text-stone-300">
-                {project.description}
-              </p>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant="outline"
-                    className="border-stone-300 bg-transparent text-stone-700 dark:border-stone-700 dark:text-stone-300"
-                  >
-                    {tag}
-                  </Badge>
-                ))}
+            <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
+              <div>
+                <p className="font-mono text-[10px] uppercase text-white/55 dark:text-neutral-500">04 / Contact</p>
+                <h2 className="mt-5 max-w-3xl text-4xl font-semibold leading-tight tracking-normal md:text-6xl">
+                  Looking for internship opportunities in software engineering, quant development and backend systems.
+                </h2>
               </div>
-
-              <Button
-                asChild
-                variant="outline"
-                className="mt-7 h-11 border-stone-300 bg-transparent dark:border-stone-700"
+              <a
+                href="mailto:junleng.poh@gmail.com"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-white px-6 text-sm font-semibold text-neutral-950 transition-transform hover:-translate-y-0.5 dark:bg-neutral-950 dark:text-white"
               >
-                <a href={project.live} target="_blank" rel="noopener noreferrer">
-                  <ExternalLink />
-                  Open live site
-                </a>
-              </Button>
-            </div>
-          </Motion.article>
-        </div>
-      </section>
-
-      <section id="contact" className="border-t border-stone-200 px-5 py-20 dark:border-stone-800">
-        <div className="mx-auto max-w-5xl">
-          <SectionHeader
-            eyebrow="Contact"
-            title="Let’s build something useful together."
-            copy="I am currently available for freelance work. If you have a project that needs coding, or want to hire me, get in touch."
-          />
-
-          <div className="grid gap-4 md:grid-cols-2">
-            {contacts.map((contact) => {
-              const Icon = contact.icon;
-              return (
-                <a
-                  key={contact.label}
-                  href={contact.href}
-                  target={contact.href.startsWith('http') ? '_blank' : undefined}
-                  rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                  className="group rounded-md border border-stone-200 bg-white/35 p-5 transition-colors hover:border-stone-300 hover:bg-white/70 dark:border-stone-800 dark:bg-white/[0.02] dark:hover:border-stone-700 dark:hover:bg-white/[0.04]"
-                >
-                  <span className="flex items-start gap-4">
-                    <span className="grid size-10 shrink-0 place-items-center rounded-md border border-stone-200 text-stone-700 dark:border-stone-800 dark:text-stone-200">
-                      <Icon className="size-4" />
-                    </span>
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-medium text-stone-950 dark:text-stone-50">
-                        {contact.label}
-                      </span>
-                      <span className="mt-1 block break-words text-sm leading-6 text-stone-500 dark:text-stone-400">
-                        {contact.value}
-                      </span>
-                    </span>
-                    <span className="grid size-9 shrink-0 place-items-center rounded-md text-stone-400 transition-colors group-hover:bg-stone-100 group-hover:text-stone-700 dark:group-hover:bg-stone-900 dark:group-hover:text-stone-200">
-                      <ExternalLink className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                    </span>
-                  </span>
-                </a>
-              );
-            })}
-          </div>
-
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <Button asChild className="h-11 bg-stone-950 text-stone-50 hover:bg-stone-800 dark:bg-stone-50 dark:text-stone-950 dark:hover:bg-stone-200">
-              <a href="mailto:junleng.poh@gmail.com">
-                <Mail />
                 Email me
+                <ArrowUpRight className="size-4" />
               </a>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="h-11 border-stone-300 bg-transparent dark:border-stone-700"
-            >
-              <a href="/JunLengResume.pdf" download="Jun Leng's Resume.pdf">
-                <Download />
+            </div>
+            <div className="mt-12 flex flex-wrap gap-x-6 gap-y-3 border-t border-white/15 pt-6 text-sm text-white/70 dark:border-neutral-950/15 dark:text-neutral-600">
+              <a href="https://github.com/junlengg" target="_blank" rel="noopener noreferrer" className="hover:text-white dark:hover:text-neutral-950">
+                GitHub
+              </a>
+              <a href="https://www.linkedin.com/in/poh-jun-leng/" target="_blank" rel="noopener noreferrer" className="hover:text-white dark:hover:text-neutral-950">
+                LinkedIn
+              </a>
+              <a href="/JunLengResume.pdf" download="Poh-Jun-Leng-Resume.pdf" className="hover:text-white dark:hover:text-neutral-950">
                 Download resume
               </a>
-            </Button>
-          </div>
+            </div>
+          </Motion.div>
         </div>
       </section>
 
-      <footer className="border-t border-stone-200 px-5 py-8 text-sm text-stone-500 dark:border-stone-800 dark:text-stone-400">
-        <div className="mx-auto flex max-w-5xl flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <p>© {currentYear} Poh Jun Leng. Built with React and hosted on Vercel.</p>
-          <div className="flex items-center gap-4">
-            <a href="https://github.com/junlengg" target="_blank" rel="noopener noreferrer" className="hover:text-stone-950 dark:hover:text-stone-50">
-              <Github className="size-4" />
-              <span className="sr-only">GitHub</span>
-            </a>
-            <a href="https://www.linkedin.com/in/poh-jun-leng/" target="_blank" rel="noopener noreferrer" className="hover:text-stone-950 dark:hover:text-stone-50">
-              <Linkedin className="size-4" />
-              <span className="sr-only">LinkedIn</span>
-            </a>
-          </div>
+      <footer className="border-t border-neutral-950/10 py-8 text-sm text-neutral-500 dark:border-white/10">
+        <div className={`${containerClass} flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between`}>
+          <p>© {currentYear} Poh Jun Leng</p>
+          <p className="font-mono text-[10px] uppercase">Built with React in Singapore</p>
         </div>
       </footer>
 
       <Motion.button
         type="button"
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className={`fixed bottom-6 right-6 z-40 grid size-11 place-items-center rounded-md border border-stone-200 bg-stone-50 text-stone-950 shadow-sm transition-opacity duration-300 dark:border-stone-800 dark:bg-[#0e0e0d] dark:text-stone-50 ${
-          scrollY > 360 ? 'opacity-100' : 'pointer-events-none opacity-0'
+        animate={{ opacity: showTop ? 1 : 0, y: showTop ? 0 : 8 }}
+        className={`fixed bottom-5 right-5 z-40 grid size-11 place-items-center rounded-md border border-neutral-950/10 bg-white text-neutral-950 shadow-xl dark:border-white/10 dark:bg-[#171716] dark:text-white ${
+          showTop ? '' : 'pointer-events-none'
         }`}
-        whileHover={{ y: -2 }}
-        whileTap={{ scale: 0.96 }}
         aria-label="Back to top"
       >
-        <ArrowUp className="size-5" />
+        <ArrowUp className="size-4" />
       </Motion.button>
     </main>
   );
 }
 
-export default LandingPage;
+export default App;
