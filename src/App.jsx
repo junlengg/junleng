@@ -36,6 +36,13 @@ const focusAreas = [
   'Automation for real users',
 ];
 
+const signalItems = [
+  'Quantitative Developer Intern',
+  'Software Engineer Intern',
+  'Backend Engineer Intern',
+  'Trading Systems Intern',
+];
+
 const experience = [
   {
     role: 'Software Developer Intern',
@@ -51,7 +58,7 @@ const experience = [
     ],
   },
   {
-    role: 'Software Developer - Freelance',
+    role: 'Freelance Software Developer',
     company: 'Aktus M.U. Kreativ Pte Ltd',
     period: 'Mar 2022 - Aug 2022',
     summary:
@@ -157,6 +164,9 @@ const skillGroups = [
   ['Tools', ['React', 'Flask', 'Firestore', 'REST APIs', 'Keras', 'Matplotlib']],
 ];
 
+const featuredProjects = projects.slice(0, 3);
+const supportingProjects = projects.slice(3);
+
 const fadeUp = {
   hidden: { opacity: 1, y: 10 },
   visible: { opacity: 1, y: 0 },
@@ -174,9 +184,12 @@ function SectionHeading({ index, eyebrow, title, copy }) {
       viewport={{ once: true, margin: '-80px' }}
       className="grid gap-5 border-t border-neutral-950/12 pt-6 dark:border-white/12 md:grid-cols-[8rem_1fr]"
     >
-      <p className="font-mono text-xs uppercase text-neutral-500 dark:text-neutral-500">
-        {index} / {eyebrow}
-      </p>
+      <div className="flex items-center gap-3 md:block">
+        <span className="block h-px w-8 bg-emerald-600 dark:bg-emerald-400 md:mb-4" />
+        <p className="font-mono text-xs uppercase text-neutral-500 dark:text-neutral-500">
+          {index} / {eyebrow}
+        </p>
+      </div>
       <div className="max-w-3xl">
         <h2 className="text-3xl font-semibold leading-tight tracking-normal text-neutral-950 dark:text-neutral-50 md:text-5xl">
           {title}
@@ -214,8 +227,8 @@ function App() {
   };
 
   return (
-    <main className="min-h-screen overflow-x-clip bg-[#f6f5f1] text-neutral-950 transition-colors duration-300 dark:bg-[#0f0f0e] dark:text-neutral-50">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-neutral-950/8 bg-[#f6f5f1]/88 backdrop-blur-xl dark:border-white/8 dark:bg-[#0f0f0e]/88">
+    <main className="min-h-screen overflow-x-clip bg-[#f5f2ea] text-neutral-950 transition-colors duration-300 dark:bg-[#0d0f0e] dark:text-neutral-50">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-neutral-950/8 bg-[#f5f2ea]/88 backdrop-blur-xl dark:border-white/8 dark:bg-[#0d0f0e]/88">
         <div className={`${containerClass} flex h-16 items-center justify-between`}>
           <button
             type="button"
@@ -291,22 +304,19 @@ function App() {
         )}
       </header>
 
-      <section className="pt-16">
-        <div className={`${containerClass} grid min-h-[calc(100vh-4rem)] items-center py-16 lg:py-20`}>
+      <section className="relative pt-16">
+        <div className="pointer-events-none absolute inset-x-0 top-16 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
+        <div className={`${containerClass} grid min-h-[calc(100vh-4rem)] items-center py-16 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16 lg:py-20`}>
           <Motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.5 }}>
-            <div className="mb-7 flex flex-wrap gap-2">
-              {['Open to internships', 'Singapore', 'SUTD CSD'].map((item) => (
-                <span
-                  key={item}
-                  className="rounded-md border border-neutral-950/10 bg-white/45 px-3 py-1.5 font-mono text-[11px] uppercase text-neutral-600 dark:border-white/10 dark:bg-white/[0.04] dark:text-neutral-400"
-                >
-                  {item}
-                </span>
-              ))}
+            <div className="mb-7 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] uppercase text-neutral-500 dark:text-neutral-500">
+              <span className="h-px w-8 bg-emerald-600 dark:bg-emerald-400" />
+              <span>Poh Jun Leng</span>
+              <span className="text-neutral-300 dark:text-neutral-700">/</span>
+              <span>SUTD Computer Science and Design</span>
             </div>
 
-            <h1 className="max-w-4xl text-5xl font-semibold leading-[0.98] tracking-normal text-neutral-950 dark:text-neutral-50 md:text-6xl">
-              Software engineering for data, markets and reliable systems.
+            <h1 className="max-w-4xl text-5xl font-semibold leading-[0.98] tracking-normal text-neutral-950 dark:text-neutral-50 md:text-7xl">
+              Building reliable software for data, markets and automation.
             </h1>
 
             <p className="mt-6 max-w-2xl text-lg leading-8 text-neutral-600 dark:text-neutral-400 md:text-xl">
@@ -333,43 +343,53 @@ function App() {
               </a>
             </div>
 
-            <div className="mt-8 flex max-w-2xl items-center gap-4 rounded-lg border border-neutral-950/10 bg-white/50 p-3 backdrop-blur dark:border-white/10 dark:bg-white/[0.035]">
-              <img
-                src="/profile-hero.jpg"
-                alt="Poh Jun Leng"
-                className="size-16 shrink-0 rounded-md object-cover object-[70%_42%]"
-              />
-              <div>
-                <p className="font-mono text-[10px] uppercase text-neutral-500">Current direction</p>
-                <p className="mt-1 text-sm leading-6 text-neutral-700 dark:text-neutral-300">
-                  Quantitative development, trading systems, backend engineering and FinTech internships.
-                </p>
-              </div>
-            </div>
-
             <div className="mt-12 grid gap-3 sm:grid-cols-2">
               {focusAreas.map((item) => (
                 <div
                   key={item}
                   className="flex items-center gap-3 border-t border-neutral-950/10 pt-3 text-sm text-neutral-600 dark:border-white/10 dark:text-neutral-400"
                 >
-                  <Check className="size-4 shrink-0 text-neutral-950 dark:text-white" />
+                  <Check className="size-4 shrink-0 text-emerald-700 dark:text-emerald-400" />
                   {item}
                 </div>
               ))}
             </div>
           </Motion.div>
+
+          <Motion.aside
+            variants={fadeUp}
+            initial="hidden"
+            animate="visible"
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="mt-14 border-y border-neutral-950/10 py-7 dark:border-white/10 lg:mt-0"
+          >
+            <p className="font-mono text-[10px] uppercase text-neutral-500">Current direction</p>
+            <p className="mt-4 text-2xl font-semibold leading-tight tracking-normal text-neutral-950 dark:text-neutral-50">
+              Quantitative development, trading systems and backend engineering.
+            </p>
+            <div className="mt-7 grid gap-3">
+              {signalItems.map((item) => (
+                <div
+                  key={item}
+                  className="flex items-center justify-between gap-4 border-t border-neutral-950/10 pt-3 text-sm dark:border-white/10"
+                >
+                  <span className="text-neutral-600 dark:text-neutral-400">{item}</span>
+                  <span className="size-1.5 shrink-0 rounded-full bg-emerald-600 dark:bg-emerald-400" />
+                </div>
+              ))}
+            </div>
+          </Motion.aside>
         </div>
 
         <div className={`${containerClass} pb-20`}>
-          <div className="grid border-y border-neutral-950/10 dark:border-white/10 sm:grid-cols-4">
+          <div className="grid rounded-lg border border-neutral-950/10 bg-neutral-950 text-white dark:border-white/10 dark:bg-white dark:text-neutral-950 sm:grid-cols-4">
             {proofPoints.map((point, index) => (
               <div
                 key={point.label}
-                className={`py-6 ${index > 0 ? 'sm:border-l sm:border-neutral-950/10 sm:pl-6 dark:sm:border-white/10' : ''}`}
+                className={`p-5 sm:p-6 ${index > 0 ? 'border-t border-white/10 sm:border-l sm:border-t-0 dark:border-neutral-950/10' : ''}`}
               >
                 <p className="text-3xl font-semibold tracking-normal">{point.value}</p>
-                <p className="mt-1 font-mono text-[10px] uppercase leading-5 text-neutral-500 dark:text-neutral-500">
+                <p className="mt-2 font-mono text-[10px] uppercase leading-5 text-white/55 dark:text-neutral-500">
                   {point.label}
                 </p>
               </div>
@@ -434,12 +454,12 @@ function App() {
           <SectionHeading
             index="02"
             eyebrow="Projects"
-            title="A small portfolio of applied systems."
-            copy="The strongest signals first: market mechanics, statistical testing, trading performance analysis and complete applied engineering work."
+            title="Selected systems work."
+            copy="A tighter read of the strongest signals: market mechanics, statistical testing, trading performance analysis and complete applied engineering work."
           />
 
-          <div className="mt-12 grid gap-5 lg:grid-cols-2">
-            {projects.map((project, index) => (
+          <div className="mt-12 grid gap-5 lg:grid-cols-3">
+            {featuredProjects.map((project, index) => (
               <Motion.article
                 key={project.title}
                 variants={fadeUp}
@@ -447,39 +467,16 @@ function App() {
                 whileInView="visible"
                 transition={{ duration: 0.45, delay: index * 0.04 }}
                 viewport={{ once: true, margin: '-60px' }}
-                className={`rounded-lg border border-neutral-950/10 bg-white/58 p-5 transition-all hover:-translate-y-1 hover:bg-white/80 hover:shadow-[0_20px_60px_rgba(20,20,18,0.07)] dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.045] sm:p-6 ${
-                  project.image ? 'lg:col-span-2 lg:grid lg:grid-cols-[0.95fr_1.05fr] lg:gap-7' : ''
-                }`}
+                className="rounded-lg border border-neutral-950/10 bg-white/58 p-5 transition-all hover:-translate-y-1 hover:bg-white/80 hover:shadow-[0_20px_60px_rgba(20,20,18,0.07)] dark:border-white/10 dark:bg-white/[0.03] dark:hover:bg-white/[0.045] sm:p-6"
               >
-                {project.image && (
-                  <a
-                    href={project.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block overflow-hidden rounded-md border border-neutral-950/10 bg-neutral-950 dark:border-white/10"
-                  >
-                    <img
-                      src={project.image}
-                      alt={`${project.title} screenshot`}
-                      className="aspect-[16/10] w-full object-cover object-left-top transition-transform duration-500 hover:scale-[1.02]"
-                    />
-                  </a>
-                )}
-
-                <div className={project.image ? 'mt-6 lg:mt-0 lg:flex lg:flex-col lg:justify-center' : ''}>
+                <div>
                   <div className="flex items-center justify-between gap-4">
-                    <span className="font-mono text-[11px] uppercase text-neutral-500">{project.category}</span>
-                    {project.href && (
-                      <a
-                        href={project.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-xs font-medium text-neutral-500 hover:text-neutral-950 dark:hover:text-white"
-                      >
-                        Live
-                        <ArrowUpRight className="size-3.5" />
-                      </a>
-                    )}
+                    <span className="font-mono text-[11px] uppercase text-emerald-700 dark:text-emerald-400">
+                      {project.category}
+                    </span>
+                    <span className="font-mono text-[10px] uppercase text-neutral-400">
+                      0{index + 1}
+                    </span>
                   </div>
                   <h3 className="mt-5 text-2xl font-semibold tracking-normal md:text-3xl">{project.title}</h3>
                   <p className="mt-4 max-w-xl leading-7 text-neutral-600 dark:text-neutral-400">
@@ -494,6 +491,42 @@ function App() {
                     ))}
                   </ul>
                   <div className="mt-6 flex flex-wrap gap-2">
+                    {project.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-md border border-neutral-950/10 px-2.5 py-1.5 font-mono text-[10px] uppercase text-neutral-500 dark:border-white/10 dark:text-neutral-500"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </Motion.article>
+            ))}
+          </div>
+
+          <div className="mt-5 grid gap-5 lg:grid-cols-2">
+            {supportingProjects.map((project, index) => (
+              <Motion.article
+                key={project.title}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                transition={{ duration: 0.45, delay: index * 0.04 }}
+                viewport={{ once: true, margin: '-60px' }}
+                className="rounded-lg border border-neutral-950/10 bg-transparent p-5 dark:border-white/10 sm:p-6"
+              >
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+                  <div>
+                    <span className="font-mono text-[11px] uppercase text-neutral-500">
+                      Supporting work / {project.category}
+                    </span>
+                    <h3 className="mt-4 text-2xl font-semibold tracking-normal">{project.title}</h3>
+                    <p className="mt-3 max-w-xl leading-7 text-neutral-600 dark:text-neutral-400">
+                      {project.summary}
+                    </p>
+                  </div>
+                  <div className="flex shrink-0 flex-wrap gap-2 sm:max-w-[12rem] sm:justify-end">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
