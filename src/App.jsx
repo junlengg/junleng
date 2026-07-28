@@ -469,10 +469,14 @@ function App() {
       </header>
 
       <section id="home" className="relative min-h-[78svh] overflow-hidden pt-16">
-        <div className="absolute inset-0 opacity-32">
-          <img src="/og.png" alt="" className="size-full object-cover" />
+        <div className="absolute inset-0 bg-[#030505]">
+          <img
+            src="/banner-football.png"
+            alt=""
+            className="absolute inset-y-0 right-0 h-full w-full object-cover object-[center_52%] opacity-45 saturate-[0.72] contrast-110 sm:w-[68%] lg:w-[55%]"
+          />
         </div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_12%,rgba(34,211,238,0.18),transparent_34%),linear-gradient(180deg,rgba(3,5,5,0.48),#030505_86%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_10%,rgba(34,211,238,0.14),transparent_34%),linear-gradient(90deg,rgba(3,5,5,0.9)_0%,rgba(3,5,5,0.66)_52%,rgba(3,5,5,0.3)_100%),linear-gradient(180deg,rgba(3,5,5,0.22),#030505_92%)]" />
         <div className={`${containerClass} relative flex min-h-[calc(78svh-4rem)] flex-col justify-start pt-8 pb-12 sm:pt-10 lg:pt-12`}>
           <Motion.div variants={fadeUp} initial="hidden" animate="visible" transition={{ duration: 0.5 }}>
             <p className="text-sm font-semibold text-white/58">About me</p>
