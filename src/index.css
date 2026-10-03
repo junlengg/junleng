@@ -35,6 +35,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Radix Colors, dark scales (radix-ui.com/colors). Neutrals: Slate. Accent: Sky. */
+  --color-ink: #111113; /* slate-1: page background */
+  --color-surface: #18191b; /* slate-2: hover surfaces */
+  --color-line: #363a3f; /* slate-6: borders and dividers */
+  --color-line-strong: #5a6169; /* slate-8: hovered borders */
+  --color-fg: #edeef0; /* slate-12: headings */
+  --color-fg-muted: #b0b4ba; /* slate-11: body text, 9:1 on ink */
+  --color-fg-subtle: #868b94; /* between slate-10 and 11: labels, 5.5:1 on ink */
+  --color-brand: #75c7f0; /* sky-11: links and accents, 10:1 on ink */
+  --color-brand-bright: #7ce2fe; /* sky-9: dots and selection */
+  --color-brand-bg: #112840; /* sky-3: tag background */
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -148,7 +165,6 @@
   }
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.75rem;
     scrollbar-color: rgba(82, 82, 82, 0.5) transparent;
     scrollbar-width: thin;
     overflow-x: clip;
@@ -156,7 +172,8 @@
   body {
     @apply bg-background text-foreground;
     min-width: 320px;
-    font-family: "JetBrains Mono", "SFMono-Regular", "Cascadia Code", "Roboto Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-family: var(--font-sans);
+    background-color: var(--color-ink);
     font-synthesis: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
